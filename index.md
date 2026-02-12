@@ -1,8 +1,3 @@
----
-layout: default
-title: Home
----
-
 # 🤖 Robotics Blog
 
 I'm a robotics engineer exploring the intersection of large language models and physical manipulation. This blog documents my experiments, failures, and occasional successes in getting LLMs to control real hardware.
