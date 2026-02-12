@@ -1,10 +1,10 @@
-# 🤖 Robotics Blog
+### 🤖 Robotics Blog
 
 I'm a robotics engineer exploring the intersection of large language models and physical manipulation. This blog documents my experiments, failures, and occasional successes in getting LLMs to control real hardware.
 
 ---
 
-## Posts
+#### Posts
 
 - **[Coming Soon] Zero-Shot Pick and Place with GPT-4 Vision** — Can a vision-language model guide a gantry arm to pick objects it's never seen before?
 
@@ -22,7 +22,7 @@ I'm a robotics engineer exploring the intersection of large language models and 
 
 ---
 
-## About
+#### About
 
 I work on warehouse automation by day — gantries, conveyors, and mobile robots moving packages at scale. This blog is where I explore what happens when you give those systems a language interface.
 
