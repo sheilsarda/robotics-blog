@@ -6,21 +6,6 @@ layout: home
 
 - **[UR Sim with Attention VLA model]({{ site.baseurl }}/blog/ur-sim-attention-vla/)** — Exploring a Vision-Language-Action model in a UR robot simulation environment.
 
-- **[Coming Soon] Zero-Shot Pick and Place with GPT-4 Vision** — Can a vision-language model guide a gantry arm to pick objects it's never seen before?
-
-- **[Coming Soon] LLM-Generated Motion Primitives** — Using Claude to write and debug trajectory generation code in real-time.
-
-- **[Coming Soon] Natural Language Error Recovery** — When the robot faults, can it describe what went wrong and propose a fix?
-
-- **[Coming Soon] Prompt Engineering for Cartesian Control** — What context does an LLM need to output valid joint commands?
-
-- **[Coming Soon] The Grounding Problem: Connecting Words to Coordinates** — Bridging the gap between "move left" and actual frame transforms.
-
-- **[Coming Soon] Multi-Robot Coordination via Chat** — Orchestrating AMRs and gantries with conversational interfaces.
-
-- **[Coming Soon] When LLMs Hallucinate Trajectories** — A catalog of spectacular failures and what they teach us.
-
----
 
 #### About
 
