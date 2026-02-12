@@ -4,6 +4,8 @@ layout: home
 
 #### Posts
 
+- **[UR Sim with Attention VLA model]({{ site.baseurl }}/blog/ur-sim-attention-vla/)** — Exploring a Vision-Language-Action model in a UR robot simulation environment.
+
 - **[Coming Soon] Zero-Shot Pick and Place with GPT-4 Vision** — Can a vision-language model guide a gantry arm to pick objects it's never seen before?
 
 - **[Coming Soon] LLM-Generated Motion Primitives** — Using Claude to write and debug trajectory generation code in real-time.

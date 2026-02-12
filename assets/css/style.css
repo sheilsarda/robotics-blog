@@ -30,19 +30,34 @@ body {
 
 /* --- Header --- */
 .site-header {
-  padding: 40px 0 0;
+  padding: 32px 0;
+  border-bottom: 1px solid #E5E7EB;
 }
 
 .site-title {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   color: #000;
   text-decoration: none;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-title::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #7C3AED;
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .site-title:hover {
   color: #7C3AED;
+  text-decoration: none;
 }
 
 /* --- Hero (homepage) --- */
@@ -95,6 +110,17 @@ li strong {
   color: #000;
   line-height: 1.45;
   margin-bottom: 2px;
+}
+
+li strong a {
+  color: #000;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+li strong a:hover {
+  color: #7C3AED;
+  text-decoration: none;
 }
 
 /* --- Horizontal rules --- */
