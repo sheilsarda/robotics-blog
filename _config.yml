@@ -1,1 +1,16 @@
-theme: minima
+title: "Robotics Blog"
+description: "I'm a robotics engineer exploring the intersection of large language models and physical manipulation. This blog documents my experiments, failures, and occasional successes in getting LLMs to control real hardware."
+baseurl: "/robotics-blog"
+url: "https://sheilsarda.github.io"
+permalink: /blog/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
