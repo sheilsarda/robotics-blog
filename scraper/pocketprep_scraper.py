@@ -56,8 +56,12 @@ def scrape_missed_questions(email: str, password: str) -> list[dict]:
     """
     captured: list[dict] = []
 
+    # Prefer the pre-installed Chromium if present (CI / remote sandboxes)
+    _PREINSTALLED = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+    _exec = _PREINSTALLED if Path(_PREINSTALLED).exists() else None
+
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(
+        launch_kwargs: dict = dict(
             headless=True,
             args=[
                 "--no-sandbox",
@@ -65,6 +69,9 @@ def scrape_missed_questions(email: str, password: str) -> list[dict]:
                 "--disable-blink-features=AutomationControlled",
             ],
         )
+        if _exec:
+            launch_kwargs["executable_path"] = _exec
+        browser = pw.chromium.launch(**launch_kwargs)
         ctx = browser.new_context(
             user_agent=(
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "

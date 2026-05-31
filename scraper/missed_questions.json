@@ -1,0 +1,67 @@
+[
+  {
+    "question_text": "A 34-year-old male is found unresponsive. Bystanders report he collapsed suddenly. You find no pulse and no breathing. What is your FIRST action?",
+    "choices": [
+      "Begin chest compressions",
+      "Apply the AED immediately",
+      "Open the airway with a head-tilt chin-lift",
+      "Call for ALS backup"
+    ],
+    "correct_answer": "Begin chest compressions",
+    "explanation": "CPR starts with chest compressions (C-A-B sequence per AHA 2010+). High-quality compressions maintain perfusion pressure. Apply AED as soon as it arrives but do not delay compressions.",
+    "category": "Cardiac Arrest",
+    "source": "dom"
+  },
+  {
+    "question_text": "You are assessing an adult patient with suspected tension pneumothorax. Which finding BEST confirms this diagnosis?",
+    "choices": [
+      "Absent breath sounds on one side with tracheal deviation away from the injury",
+      "Bilateral crackles and SpO2 of 88%",
+      "JVD with equal breath sounds bilaterally",
+      "Subcutaneous emphysema with normal BP"
+    ],
+    "correct_answer": "Absent breath sounds on one side with tracheal deviation away from the injury",
+    "explanation": "Tension pneumothorax classically presents with absent unilateral breath sounds, tracheal deviation AWAY from the affected side, JVD, hypotension, and tachycardia. It is a clinical diagnosis \u00e2\u20ac\u201d do not wait for imaging. Treat immediately with needle decompression.",
+    "category": "Trauma",
+    "source": "dom"
+  },
+  {
+    "question_text": "A 6-year-old child is brought in with respiratory distress. Using the Pediatric Assessment Triangle, you note: limp muscle tone, no eye contact with you, inconsolable crying, and mottled skin. What does this PAT indicate?",
+    "choices": [
+      "Respiratory failure with circulatory failure",
+      "Stable child with mild respiratory distress",
+      "Isolated circulatory problem",
+      "CNS/metabolic problem only"
+    ],
+    "correct_answer": "Respiratory failure with circulatory failure",
+    "explanation": "PAT = TICLS: Tone (limp), Interactivity (no eye contact), Consolability (inconsolable), Look/Gaze (poor), Speech/Cry (crying = air movement). Abnormal appearance + abnormal circulation = respiratory failure with circulatory compromise. Immediate intervention required.",
+    "category": "Pediatric",
+    "source": "dom"
+  },
+  {
+    "question_text": "Which of the following BEST describes the correct sequence for managing a patient in hypovolemic shock?",
+    "choices": [
+      "Control hemorrhage \u00e2\u2020\u2019 establish IV access \u00e2\u2020\u2019 administer isotonic fluids \u00e2\u2020\u2019 reassess",
+      "Administer vasopressors \u00e2\u2020\u2019 control hemorrhage \u00e2\u2020\u2019 reassess",
+      "Administer oxygen \u00e2\u2020\u2019 administer fluids \u00e2\u2020\u2019 control hemorrhage",
+      "Establish airway \u00e2\u2020\u2019 administer 2L NS bolus \u00e2\u2020\u2019 transport"
+    ],
+    "correct_answer": "Control hemorrhage \u00e2\u2020\u2019 establish IV access \u00e2\u2020\u2019 administer isotonic fluids \u00e2\u2020\u2019 reassess",
+    "explanation": "Hypovolemic shock management follows VIP: Ventilate, Irrigate (fluids), Pressors \u00e2\u20ac\u201d but hemorrhage CONTROL comes first. Pouring fluids into an uncontrolled bleed is futile. Control the source, then resuscitate. Use isotonic crystalloids (NS or LR) for initial volume.",
+    "category": "Shock",
+    "source": "dom"
+  },
+  {
+    "question_text": "A conscious adult patient is experiencing a severe allergic reaction with urticaria, bronchospasm, and hypotension. What is the drug of choice and route?",
+    "choices": [
+      "Epinephrine 0.3 mg IM into the lateral thigh",
+      "Diphenhydramine 50 mg IV",
+      "Epinephrine 1 mg IV push",
+      "Albuterol nebulizer only"
+    ],
+    "correct_answer": "Epinephrine 0.3 mg IM into the lateral thigh",
+    "explanation": "Anaphylaxis first-line = Epinephrine 0.3\u00e2\u20ac\u201c0.5 mg (1:1000) IM lateral thigh. IM gives faster absorption than SQ. IV epinephrine (1:10,000) is reserved for cardiac arrest or refractory anaphylaxis with IV access in monitored setting. Antihistamines are adjuncts \u00e2\u20ac\u201d they do NOT reverse anaphylaxis.",
+    "category": "Pharmacology",
+    "source": "dom"
+  }
+]
