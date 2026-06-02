@@ -2,10 +2,6 @@
 layout: default
 ---
 
-<section class="hero">
-  <h1 class="hero-title">{{ site.tagline }}</h1>
-</section>
-
 <section class="posts-section">
   <h2 class="section-label">Posts</h2>
   <ul class="post-list">
@@ -20,7 +16,13 @@ layout: default
         </a>
         {% assign card_title = post.short_title | default: post.title %}
         {% if post.title != card_title %}
-        <p class="post-card-full-title">{{ post.title }}</p>
+        {% assign title_sep = post.short_title | append: ': ' %}
+        {% if post.title contains title_sep %}
+          {% assign full_title = post.title | split: title_sep | last %}
+        {% else %}
+          {% assign full_title = post.title %}
+        {% endif %}
+        <p class="post-card-full-title">{{ full_title }}</p>
         {% endif %}
         <div class="post-meta">
           <span class="meta-badge meta-badge--date">
@@ -41,6 +43,8 @@ layout: default
   <p class="about-bio">{{ site.description }}</p>
   {{ content }}
   <p class="about-links">
-    <a href="https://github.com/sheilsarda">GitHub</a><span class="link-sep">|</span><a href="https://linkedin.com/in/sheilsarda">LinkedIn</a>
+    <a href="https://github.com/sheilsarda">GitHub</a>
+    <span class="link-sep" aria-hidden="true">|</span>
+    <a href="https://linkedin.com/in/sheilsarda">LinkedIn</a>
   </p>
 </section>

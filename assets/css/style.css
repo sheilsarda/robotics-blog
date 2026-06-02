@@ -79,6 +79,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap;
   gap: 16px;
   padding: 20px 0;
   margin-bottom: 8px;
@@ -92,14 +93,19 @@ body {
 }
 
 .site-title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--ink);
   text-decoration: none;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transition: color 0.2s var(--ease);
 }
 
@@ -128,7 +134,9 @@ body {
 .site-nav {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .nav-link {
@@ -145,23 +153,20 @@ body {
 }
 
 .link-sep {
-  margin: 0 0.55em;
-  color: var(--border);
+  margin: 0 0.5em;
+  color: #D1D5DB;
   user-select: none;
 }
 
-/* --- Hero (homepage) --- */
-.hero {
-  padding: 48px 0 40px;
+.about-links {
+  margin-top: 4px !important;
+  margin-bottom: 0 !important;
+  font-size: 16px;
+  white-space: nowrap;
 }
 
-.hero-title {
-  font-size: clamp(1.85rem, 4.5vw, 2.5rem);
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.035em;
-  color: var(--ink);
-  max-width: 640px;
+.about-links a:hover {
+  text-decoration: underline;
 }
 
 /* --- Section labels --- */
@@ -192,16 +197,6 @@ body {
   color: var(--ink);
 }
 
-.about-links {
-  margin-top: 4px !important;
-  margin-bottom: 0 !important;
-  font-size: 16px;
-}
-
-.about-links a:hover {
-  text-decoration: underline;
-}
-
 /* --- Legacy section headings (h4 in content) --- */
 h4 {
   font-size: 12px;
@@ -215,6 +210,7 @@ h4 {
 /* --- Post cards --- */
 .posts-section {
   margin-bottom: 8px;
+  padding-top: 32px;
 }
 
 .post-list {
@@ -258,8 +254,14 @@ h4 {
 
 .post-card-link {
   display: block;
+  color: var(--ink);
   text-decoration: none;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.post-card-link:hover {
+  color: var(--purple);
+  text-decoration: none;
 }
 
 .post-card-title {
@@ -288,6 +290,7 @@ h4 {
 .post-meta {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   margin-bottom: 10px;
 }
@@ -532,8 +535,8 @@ main > section > p,
     padding: 16px 0;
   }
 
-  .hero {
-    padding: 32px 0 28px;
+  .posts-section {
+    padding-top: 24px;
   }
 
   .post-card {
