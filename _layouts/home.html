@@ -2,26 +2,40 @@
 layout: default
 ---
 
+{% assign post_count = site.posts | size %}
+
 <section class="hero">
-  <p>{{ site.description }}</p>
+  <p class="hero-eyebrow">{{ post_count }} {% if post_count == 1 %}essay{% else %}essays{% endif %} on robots, models, and control</p>
+  <h1 class="hero-title">{{ site.description }}</h1>
 </section>
 
-<h4>Posts</h4>
-<ul class="post-list">
-  {% for post in site.posts %}
-  {% assign words = post.content | number_of_words %}
-  {% assign read_time = words | plus: 149 | divided_by: 150 %}
-  {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
-  <li class="post-preview">
-    <strong><a href="{{ post.url | relative_url }}">{{ post.title }}</a></strong>
-    <p class="post-meta">
-      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
-      · {{ words | number_with_delimiter }} words
-      · {{ read_time }} min read
-    </p>
-    {% if post.description %}<p class="post-description">{{ post.description }}</p>{% endif %}
-  </li>
-  {% endfor %}
-</ul>
+<section class="posts-section">
+  <h2 class="section-label">Posts</h2>
+  <ul class="post-list">
+    {% for post in site.posts %}
+    {% assign words = post.content | number_of_words %}
+    {% assign read_time = words | plus: 149 | divided_by: 150 %}
+    {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
+    <li class="post-preview" style="--i: {{ forloop.index0 }}">
+      <article class="post-card">
+        <a href="{{ post.url | relative_url }}" class="post-card-link">
+          <h3 class="post-card-title">{{ post.title }}</h3>
+          <span class="post-card-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <div class="post-meta">
+          <span class="meta-badge meta-badge--date">
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+          </span>
+          <span class="meta-badge has-tip" tabindex="0" data-tip="Body text only, excluding front matter">{{ words | number_with_delimiter }} words</span>
+          <span class="meta-badge has-tip" tabindex="0" data-tip="Estimated at 150 words per minute">{{ read_time }} min read</span>
+        </div>
+        {% if post.description %}<p class="post-description">{{ post.description }}</p>{% endif %}
+      </article>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
 
-{{ content }}
+<section class="about-section">
+  {{ content }}
+</section>

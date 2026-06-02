@@ -3,6 +3,7 @@ description: "I'm a robotics engineer exploring the intersection of large langua
 baseurl: "/robotics-blog"
 url: "https://sheilsarda.github.io"
 permalink: /blog/:title/
+future: true
 
 defaults:
   - scope:
