@@ -2,12 +2,38 @@
 layout: default
 ---
 
+{% assign words = content | number_of_words %}
+{% assign read_time = words | plus: 149 | divided_by: 150 %}
+{% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
+{% assign display_title = page.short_title | default: page.title %}
+
 <article class="post">
+  <p class="post-back"><a href="{{ '/' | relative_url }}">&larr; All posts</a></p>
+
   <header class="post-header">
-    <h1>{{ page.title }}</h1>
+    <h1 class="post-title">{{ display_title }}</h1>
+
+    {% if page.title != display_title %}
+      {% assign title_sep = page.short_title | append: ': ' %}
+      {% if page.title contains title_sep %}
+        {% assign title_extension = page.title | split: title_sep | last %}
+      {% else %}
+        {% assign title_extension = page.title %}
+      {% endif %}
+      <p class="post-title-extension">{{ title_extension }}</p>
+    {% endif %}
+
     {% if page.description %}<p class="post-subtitle">{{ page.description }}</p>{% endif %}
-    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+
+    <div class="post-meta">
+      <span class="meta-badge meta-badge--date">
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%b %-d, %Y" }}</time>
+      </span>
+      <span class="meta-badge">{{ words | number_with_delimiter }} words</span>
+      <span class="meta-badge">{{ read_time }} min read</span>
+    </div>
   </header>
+
   <div class="post-content">
     {{ content }}
   </div>

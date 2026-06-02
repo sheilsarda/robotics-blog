@@ -76,20 +76,10 @@ body {
 
 /* --- Header --- */
 .site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  gap: 16px;
-  padding: 20px 0;
+  padding: 24px 0 16px;
   margin-bottom: 8px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--surface-raised);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+  background: transparent;
+  border-bottom: none;
 }
 
 .site-title {
@@ -101,11 +91,6 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-width: 0;
-  flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   transition: color 0.2s var(--ease);
 }
 
@@ -131,42 +116,27 @@ body {
   box-shadow: 0 0 0 5px var(--purple-glow);
 }
 
-.site-nav {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.nav-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-faint);
-  text-decoration: none;
-  transition: color 0.2s var(--ease);
-}
-
-.nav-link:hover {
-  color: var(--purple);
-  text-decoration: none;
-}
-
 .link-sep {
   margin: 0 0.5em;
   color: #D1D5DB;
   user-select: none;
 }
 
-.about-links {
-  margin-top: 4px !important;
-  margin-bottom: 0 !important;
-  font-size: 16px;
+.footer-links {
+  margin-bottom: 8px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
-.about-links a:hover {
-  text-decoration: underline;
+.footer-links a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: var(--purple);
+  text-decoration: none;
 }
 
 /* --- Section labels --- */
@@ -413,40 +383,75 @@ main > section > p,
 }
 
 /* --- Post page --- */
-.post-header {
-  padding: 48px 0 36px;
+.post-back {
+  margin: 24px 0 0;
+  font-size: 14px;
 }
 
-.post-header h1 {
-  font-size: clamp(1.75rem, 4vw, 2.375rem);
-  font-weight: 700;
-  line-height: 1.2;
+.post-back a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s var(--ease);
+}
+
+.post-back a:hover {
+  color: var(--purple);
+  text-decoration: none;
+}
+
+.post-header {
+  padding: 20px 0 32px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-title {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 800;
+  line-height: 1.25;
   letter-spacing: -0.03em;
   color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.post-title-extension {
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-muted);
   margin-bottom: 12px;
+  max-width: 640px;
 }
 
 .post-subtitle {
-  font-size: 18px;
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.55;
   color: var(--ink-muted);
   font-style: italic;
   margin-bottom: 16px;
   max-width: 640px;
 }
 
+.post-header .post-meta {
+  margin-bottom: 0;
+}
+
 .post-header time {
-  display: inline-block;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--purple-dark);
-  background: var(--purple-light);
-  padding: 4px 12px;
-  border-radius: 999px;
+  color: inherit;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 .post-content {
-  padding-bottom: 40px;
+  padding: 36px 0 48px;
+}
+
+/* Hide duplicate title if old markdown still has a leading h1 */
+.post-content > h1:first-child {
+  display: none;
 }
 
 .post-content h2 {
@@ -547,8 +552,8 @@ main > section > p,
     font-size: 15px;
   }
 
-  .post-header h1 {
-    font-size: 1.65rem;
+  .post-title {
+    font-size: 1.4rem;
   }
 
   .has-tip::after {
@@ -569,8 +574,7 @@ main > section > p,
   }
 
   .post-card,
-  .site-title::before,
-  .nav-link {
+  .site-title::before {
     transition: none;
   }
 }
