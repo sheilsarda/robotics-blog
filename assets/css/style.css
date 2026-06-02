@@ -423,6 +423,15 @@ main > section > p,
   margin-bottom: 12px;
 }
 
+.post-subtitle {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-bottom: 16px;
+  max-width: 640px;
+}
+
 .post-header time {
   display: inline-block;
   font-size: 13px;

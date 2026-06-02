@@ -5,10 +5,6 @@ slug: vlas-in-contact
 description: "Initiating coverage on three failure modes stopping VLAs from closing the contact loop."
 ---
 
-# VLAs in Contact: The Need for Speed
-
-*Initiating Coverage on Three Failure Modes Stopping VLAs From Closing the Contact Loop*
-
 ## Glossary of terms
 
 ### Dual-system architectures

@@ -3,12 +3,8 @@ title: "Is It Possible to Run a Vision-Language-Action Model in a Safety-Critica
 short_title: "VLAs in safety-critical loops"
 date: 2026-05-07
 slug: vlas-in-safety-critical-applications
-description: "The intersection of sampling-based model predictive control and control barrier functions."
+description: "The intersection of sampling-based model predictive control (MPC) and control barrier functions (CBFs)."
 ---
-
-# Is It Possible to Run a Vision-Language-Action Model in a Safety-Critical Loop?
-
-*The intersection of Sampling-based Model Predictive Control (MPC) and Control Barrier Functions (CBFs)*
 
 Should one ask a Vision-Language-Action model to drive an excavator?
 

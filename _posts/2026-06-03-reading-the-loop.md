@@ -6,10 +6,6 @@ slug: model-scorecards
 description: "Three lenses on five companies, one pick, and where robot control as a video prediction problem actually pays off."
 ---
 
-# Reading the loop: what robot foundation model scorecards admit about system design
-
-*Three lenses on five companies, one pick, and where robot control as a video prediction problem actually pays off*
-
 ## Glossary
 
 **Vision-language-action model (VLA).** A single network mapping camera images and a language instruction to robot actions. RT-2 and OpenVLA are the reference points. What decides deployability is what runs underneath to turn the output into motion at control rate.
