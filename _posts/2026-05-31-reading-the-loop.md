@@ -1,8 +1,8 @@
 ---
-title: Reading the loop: what robot foundation model scorecards admit about system design
+title: "Reading the loop: what robot foundation model scorecards admit about system design"
 date: 2026-05-31
 slug: model-scorecards
-description: Three lenses on five companies, one pick, and where robot control as a video prediction problem actually pays off.
+description: "Three lenses on five companies, one pick, and where robot control as a video prediction problem actually pays off."
 ---
 
 # Reading the loop: what robot foundation model scorecards admit about system design
