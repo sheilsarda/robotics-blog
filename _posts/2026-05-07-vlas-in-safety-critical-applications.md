@@ -8,6 +8,8 @@ description: "The intersection of sampling-based model predictive control (MPC) 
 
 Should one ask a Vision-Language-Action model to drive an excavator?
 
+![Autonomous excavator concept]({{ site.baseurl }}/assets/posts/vlas-in-safety-critical-applications/eba50f54-7287-4126-8d03-ee3d49765b20_1376x768.png)
+
 In 2026, nothing is technically stopping you from taking an off-the-shelf Vision-Language-Action (VLA) model like Pi-0.5 and wiring it to a fully autonomous excavator. Physical Intelligence released the weights, the task is multi-input multi-output control, and a competent imitation policy should track a human operator given the right demonstration data. Whether you should, and can this system ever be certified to operate in real-world scenarios and not just a robot farm is a different question, and it's the one this post is about.
 
 I've spent the last few years writing planning, collision-checking, and trajectory-optimization algorithms for robots, and from my perspective, the capability gap between a hand-tuned planner and a learned policy on novel tasks is closing. There's a world where a synthetic training set from simulation runs generalizes in zero shot.
@@ -66,15 +68,19 @@ For a Vision-Language-Action model in the same architectural slot, the math is i
 
 ### Regulatory standards and certifications needed to deploy in production
 
-ISO 17757 was finalized in 2019 and reflects pre-foundation-model thinking about autonomous machinery. Its guidance for "software" is largely deterministic-controller-shaped. Learned policies do not fit that mold. ISO 22100-5, which is a technical report addressing how machine learning affects machinery safety, also does not cover VLAs.
+[ISO 17757](https://www.iso.org/standard/76126.html) was finalized in 2019 and reflects pre-foundation-model thinking about autonomous machinery. Its guidance for "software" is largely deterministic-controller-shaped. Learned policies do not fit that mold. [ISO 22100-5](https://cdn.standards.iteh.ai/samples/80778/df193e92ba494813a6fd2ed0a0b59934/ISO-TR-22100-5-2021.pdf), which is a technical report addressing how machine learning affects machinery safety, also does not cover VLAs.
 
 This is the practical reason the architecture in this post matters. A pure end-to-end VLA driving an excavator is currently outside the boundary of any applicable safety standard, but wrapping it in the architecture specified by MPPI w/ CBFs, where the model proposes actions and a safety filter projects them onto a verifiable safe set, returns the system to the "designed to act within specific limits" category that ISO/TR 22100-5 covers and ISO 17757 can certify against.
 
+![Propose-then-verify architecture]({{ site.baseurl }}/assets/posts/vlas-in-safety-critical-applications/16807666-17b0-4a5d-b1c1-accd6f42a51a_1411x1288.png)
+
 ### Industry approaches from Tesla, Wayve, Nvidia, etc.
 
-Wayve's AV2.0 explicitly replaces the modular sense-plan-act architecture with a single neural network, and Tesla is doing something similar. The pure end-to-end approach pursued by Wayve and Tesla is harder to certify because there is no decomposable safety argument.
+[Wayve's AV2.0](https://wayve.ai/technology/) explicitly replaces the modular sense-plan-act architecture with a single neural network, and Tesla is doing something similar. The pure end-to-end approach pursued by Wayve and Tesla is harder to certify because there is no decomposable safety argument.
 
 The formal-verification literature has converged on the view that black-box neural systems require either runtime monitors with small trusted bases or new analysis frameworks that have not yet matured.
+
+![End-to-end vs modular safety architectures]({{ site.baseurl }}/assets/posts/vlas-in-safety-critical-applications/6c8e9750-f697-4c29-92d3-7a5c36f796bf_1736x1209.png)
 
 Three recent papers from NVIDIA's Autonomous Vehicle Research Group, taken together, make the case for the Propose-then-Verify architecture from three angles: why it is necessary in the first place, why sampling-based planning is the practical instantiation, and how the safety primitive generalizes beyond Control Barrier Functions.
 
@@ -104,20 +110,27 @@ Propose-then-Verify is the architecture that survives the transition. The verifi
 
 ## References
 
-Chen, Yuxiao, Sushant Veer, Peter Karkus, and Marco Pavone. "Interactive Joint Planning for Autonomous Vehicles." *arXiv*, 27 Oct. 2023, arxiv.org/abs/2310.18301.
+Chen, Yuxiao, Sushant Veer, Peter Karkus, and Marco Pavone. "Interactive Joint Planning for Autonomous Vehicles." *arXiv*, 27 Oct. 2023, [arxiv.org/abs/2310.18301](https://arxiv.org/abs/2310.18301).
 
-Jackson, Daniel, Valerie Richmond, Mike Wang, Jeff Chow, Uriel Guajardo, Soonho Kong, Sergio Campos, Geoffrey Litt, and Nikos Arechiga. "Certified Control: An Architecture for Verifiable Safety of Autonomous Vehicles." *arXiv*, 13 Apr. 2021, arxiv.org/abs/2104.06178.
+Jackson, Daniel, Valerie Richmond, Mike Wang, Jeff Chow, Uriel Guajardo, Soonho Kong, Sergio Campos, Geoffrey Litt, and Nikos Arechiga. "Certified Control: An Architecture for Verifiable Safety of Autonomous Vehicles." *arXiv*, 13 Apr. 2021, [arxiv.org/abs/2104.06178](https://arxiv.org/abs/2104.06178).
 
 Karkus, Peter, Maximilian Igl, Yuxiao Chen, Kashyap Chitta, et al. "Beyond Behavior Cloning in Autonomous Driving: A Survey of Closed-Loop Training Techniques." NVIDIA Research, 2025.
 
-Kou, Hongrui, Zhouhang Lyu, Ziyu Wang, Cheng Wang, and Yuxin Zhang. "UniSTPA: A Safety Analysis Framework for End-to-End Autonomous Driving." *arXiv*, 21 May 2025, arxiv.org/abs/2505.15005.
+Kou, Hongrui, Zhouhang Lyu, Ziyu Wang, Cheng Wang, and Yuxin Zhang. "UniSTPA: A Safety Analysis Framework for End-to-End Autonomous Driving." *arXiv*, 21 May 2025, [arxiv.org/abs/2505.15005](https://arxiv.org/abs/2505.15005).
 
 Ma, Yingzi, Yulong Cao, Wenhao Ding, Yuxiao Chen, et al. "SafeVL: Driving Safety Evaluation via Meticulous Reasoning in Vision Language Models." NVIDIA Research, Dec. 2025.
 
-Parwana, Hardik, Taekyung Kim, Kehan Long, Bardh Hoxha, Hideki Okamoto, Georgios Fainekos, and Dimitra Panagou. "BR-MPPI: Barrier Rate Guided MPPI for Enforcing Multiple Inequality Constraints with Learned Signed Distance Field." *arXiv*, 9 June 2025, arxiv.org/abs/2506.07325.
+Parwana, Hardik, Taekyung Kim, Kehan Long, Bardh Hoxha, Hideki Okamoto, Georgios Fainekos, and Dimitra Panagou. "BR-MPPI: Barrier Rate Guided MPPI for Enforcing Multiple Inequality Constraints with Learned Signed Distance Field." *arXiv*, 9 June 2025, [arxiv.org/abs/2506.07325](https://arxiv.org/abs/2506.07325).
 
-Tao, Chuyuan, Hunmin Kim, Hyungjin Yoon, Naira Hovakimyan, and Petros Voulgaris. "Control Barrier Function Augmentation in Sampling-based Control Algorithm for Sample Efficiency." *arXiv*, 12 Nov. 2021, arxiv.org/abs/2111.06974.
+Tao, Chuyuan, Hunmin Kim, Hyungjin Yoon, Naira Hovakimyan, and Petros Voulgaris. "Control Barrier Function Augmentation in Sampling-based Control Algorithm for Sample Efficiency." *arXiv*, 12 Nov. 2021, [arxiv.org/abs/2111.06974](https://arxiv.org/abs/2111.06974).
 
-Trevisan, Elia, and Javier Alonso-Mora. "Biased-MPPI: Informing Sampling-Based Model Predictive Control by Fusing Ancillary Controllers." *IEEE Robotics and Automation Letters*, vol. 9, no. 3, 2024, pp. 2604–2611, arxiv.org/abs/2401.09241.
+Trevisan, Elia, and Javier Alonso-Mora. "Biased-MPPI: Informing Sampling-Based Model Predictive Control by Fusing Ancillary Controllers." *IEEE Robotics and Automation Letters*, vol. 9, no. 3, 2024, pp. 2604–2611, [arxiv.org/abs/2401.09241](https://arxiv.org/abs/2401.09241).
 
-Yin, Ji, Charles Dawson, Chuchu Fan, and Panagiotis Tsiotras. "Shield Model Predictive Path Integral: A Computationally Efficient Robust MPC Approach Using Control Barrier Functions." *IEEE Robotics and Automation Letters*, 2023, arxiv.org/abs/2302.11719. Presented at ICRA 2024.
+Yin, Ji, Charles Dawson, Chuchu Fan, and Panagiotis Tsiotras. "Shield Model Predictive Path Integral: A Computationally Efficient Robust MPC Approach Using Control Barrier Functions." *IEEE Robotics and Automation Letters*, 2023, [arxiv.org/abs/2302.11719](https://arxiv.org/abs/2302.11719). Presented at ICRA 2024.
+
+## Appendix
+
+1. Claude-generated [primer](https://claude.ai/public/artifacts/a1076568-ea5a-4a95-a9f4-08d4722076b6) on some of the topics covered
+2. Quick reference
+
+![Safety architecture quick reference]({{ site.baseurl }}/assets/posts/vlas-in-safety-critical-applications/3c603880-f3c8-4263-a5f0-c6bf429807d5_1359x1824.png)

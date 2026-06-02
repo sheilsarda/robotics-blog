@@ -5,6 +5,8 @@ slug: vlas-in-contact
 description: "Initiating coverage on three failure modes stopping VLAs from closing the contact loop."
 ---
 
+![Dual-system VLA architecture overview]({{ site.baseurl }}/assets/posts/vlas-in-contact/05a4b546-50f8-4ad7-aeec-198d1be462df_1194x271.png)
+
 ## Glossary of terms
 
 ### Dual-system architectures
@@ -27,7 +29,9 @@ The frequency gap between VLAs and contact controllers is 100–1000× and struc
 
 This looks like it solves the problem until one realizes that chunks are committed plans, decided before the model observes what happens during their execution. The closed-loop reaction rate (rate at which the system can respond to an unexpected force spike) remains the slow forward-pass rate. Secondly, force/torque signals carry information vision categorically cannot supply. So even if you somehow ran a VLA at 1 kHz, the input modality is wrong for the task.
 
-Source: Li, Yao, et al. "FAVLA: A Force-Adaptive Fast-Slow VLA model for Contact-Rich Robotic Manipulation." *arXiv* preprint arXiv:2602.23648 (2026).
+![FAVLA fast-slow architecture]({{ site.baseurl }}/assets/posts/vlas-in-contact/66b40054-971a-47e8-870d-0c804b45079c_698x538.png)
+
+Source: Li, Yao, et al. "FAVLA: A Force-Adaptive Fast-Slow VLA model for Contact-Rich Robotic Manipulation." *arXiv* preprint [arXiv:2602.23648](https://arxiv.org/abs/2602.23648) (2026).
 
 In the above paper, the authors argue contact-rich VLA control solutions should be bi-modal: semantic scene understanding should remain slow, while contact feedback and corrective control should be fast. Let's talk about solutions, trade offs, and potential alternatives to consider.
 
@@ -39,19 +43,23 @@ How does one decide what's right for the use case?
 
 **Do the controlling physical parameters vary at deployment vs training?** If yes, you need aggressive domain randomization, or explicit online adaptation. This covers unknown material properties, unknown friction / gravity, novel objects, etc.
 
-**Is the task safety-critical against an external standard?** If yes, the learned policy can propose but cannot enforce. You need a verified runtime-assurance wrapper.
+**Is the task safety-critical against an external standard?** If yes, the learned policy can propose but cannot enforce. You need a verified runtime-assurance wrapper (see [my previous blog post]({{ site.baseurl }}/blog/vlas-in-safety-critical-applications/)).
 
 We'll cover each domain individually, and describe potential implementation approaches, trade offs, and alternatives to consider.
 
 ## Category 1: Sensing-bound
 
-The control part of the robotics stack generally closes the loop through sensors like Hall-effect encoders, force-torque sensors, tactile arrays, and load cells. The beauty of use-case-specific robots is that you get to build the automation, sensing modalities, and control policies around a single task. The robots I've worked on at Fulfil are a case in point. Encoders, load cells, and precise calibration are enough to do complex manipulation across 20,000+ SKUs (Stock Keeping Units, grocery terminology for individual products).
+The control part of the robotics stack generally closes the loop through sensors like [Hall-effect encoders](https://en.wikipedia.org/wiki/Hall_effect_sensor), [force-torque sensors](https://www.automateshow.com/blog/force-torque-sensors-a-closer-look-at-the-technology-powering-smarter-automation), [tactile arrays](https://en.wikipedia.org/wiki/Tactile_sensor), and [load cells](https://en.wikipedia.org/wiki/Load_cell). The beauty of use-case-specific robots is that you get to build the automation, sensing modalities, and control policies around a single task. The robots I've worked on at [Fulfil](http://fulfil.com/) are a case in point. Encoders, load cells, and precise calibration are enough to do complex manipulation across 20,000+ SKUs (Stock Keeping Units, grocery terminology for individual products).
 
 VLAs sit at the opposite end of the spectrum. They are trained to be generalist by default, with cameras as the primary sensing modality, and the path to deployment is: fine-tune on task demonstrations, evaluate against human operators, ship with teleoperated supervision until reliability is acceptable. The problem this creates for contact-rich work is structural rather than incidental. Vision is the wrong modality for measuring forces. Even with a perfectly positioned camera and zero occlusion, an RGB image cannot tell you that the gripper is about to slip, that the contact normal force has spiked, or that the object's weight differs from what the model assumed.
 
-Three concrete failure modes follow. First, **hand-object occlusion.** When the manipulator is actually doing useful work, the manipulator itself blocks the camera's view of the contact patch. Second, **force-blind chunking.** A vision-only VLA emits an action chunk based on visual state at time T and then commits to it through time T plus several hundred milliseconds; any force event during that window is invisible until the next forward pass. Third, **modality mismatch.** Even if you bolt a force sensor onto the system, the standard VLA architecture pushes that signal through the slow vision-language brain before it can affect the action, which throws away the temporal advantage of force sensing in the first place.
+![Vision-only VLA manipulation failure modes]({{ site.baseurl }}/assets/posts/vlas-in-contact/1bd1247f-aacf-44d8-8a21-f86645bdad1b_1360x1080.png)
 
-Source: Zhang, Qi, Zheng. "Experiences from Benchmarking Vision-Language-Action Models for Robotic Manipulation." *arXiv* 2511.11298, 2025. Empirical comparison of ACT, OpenVLA-OFT, RDT-1B, π0 on ALOHA Mobile platform.
+Three concrete failure modes follow. First, **hand-object occlusion.** When the manipulator is actually doing useful work, the manipulator itself blocks the camera's view of the contact patch. Second, **force-blind chunking.** A vision-only VLA emits an action chunk based on visual state at time T and then commits to it through time T plus several hundred milliseconds; any force event during that window is invisible until the next forward pass. Third, **modality mismatch.** Even if you bolt a force sensor onto the system, the standard VLA architecture pushes that signal through the slow vision-language brain before it can affect the action, which throws away the temporal advantage of force sensing in the first place. Illustration of some ways VLA policies fail in this category:
+
+![VLA policy failure illustrations]({{ site.baseurl }}/assets/posts/vlas-in-contact/d84112bf-3208-4e43-8a42-4f2a34d1e94c_1954x1399.png)
+
+*Source: Zhang, Qi, Zheng. "Experiences from Benchmarking Vision-Language-Action Models for Robotic Manipulation." [arXiv:2511.11298](https://arxiv.org/abs/2511.11298), 2025. Empirical comparison of ACT, OpenVLA-OFT, RDT-1B, π0 on ALOHA Mobile platform.*
 
 ### A potential solution: Tactile images
 
@@ -59,7 +67,9 @@ A tactile image is a 2D grid where each pixel encodes a contact-related measurem
 
 How the image gets created can vary. Optical tactile image sensors use a camera looking at the back of a soft transparent elastomer pad. The camera takes images of the elastomer deformation as it pushes against the object, like from the inside of a fingertip looking outward. Because tactile images aren't real images, we don't get the same cross-sensor portability that one expects from cameras. Also, perhaps this goes without saying, but tactile events happen at millisecond scales (> 1 kHz), whereas cameras tend to run at 24 or 60 FPS.
 
-Source: Hao, Peng, et al. "TLA: Tactile-Language-Action Model for Contact-Rich Manipulation." *arXiv*, 11 Mar. 2025, arxiv.org/abs/2503.08548.
+![Optical tactile sensor and tactile image]({{ site.baseurl }}/assets/posts/vlas-in-contact/3cae0495-4526-456b-9832-a020d94e081a_797x577.png)
+
+*Source: Hao, Peng, et al. "TLA: Tactile-Language-Action Model for Contact-Rich Manipulation." arXiv, 11 Mar. 2025, [arxiv.org/abs/2503.08548](https://arxiv.org/abs/2503.08548).*
 
 TLA demonstrates that VLM-style reasoning over tactile evidence is feasible at the planning timescale, but too slow for the control loop timescale. This works well for tasks (like the peg-in-hole demonstrated in the paper) where retries don't have any physical penalty. Each failed attempt can be lifted out and corrected without damaging anything, because the geometry is constrained and the forces involved are bounded. If instead the task was one of catching a falling object, for instance, the solution space gets constrained to designing a closed-loop tactile controller.
 
@@ -81,7 +91,9 @@ The formalism for thinking about this rigorously is the hidden-parameter Markov 
 
 Enter PrivilegedDreamer. It builds on Dreamer, which is a model-based actor-critic framework where the agent learns a world model from real experience and then trains both an actor (which proposes actions) and a critic (which estimates state values) inside imagined rollouts generated by the world model. PrivilegedDreamer extends this by conditioning the world model on the true physical parameters during simulation training, where those parameters are known, and then using a recurrent network to estimate the parameters from observation history at deployment. The actor-critic runs on top of the parameter estimate, which gives the policy both sample efficiency from imagined rollouts and parameter awareness from explicit estimation.
 
-Source: Byrd, Morgan, et al. "PrivilegedDreamer: Explicit Imagination of Privileged Information for Rapid Adaptation of Learned Policies." 2025 IEEE International Conference on Robotics and Automation (ICRA), IEEE, 2025.
+![PrivilegedDreamer architecture]({{ site.baseurl }}/assets/posts/vlas-in-contact/f217cee2-b2b2-4a97-98d4-8c2cbfc9977c_2438x1590.png)
+
+*Source: Byrd, Morgan, et al. "PrivilegedDreamer: Explicit Imagination of Privileged Information for Rapid Adaptation of Learned Policies." 2025 IEEE International Conference on Robotics and Automation (ICRA), IEEE, 2025.*
 
 Domain randomization at training time is another mitigation for OOD errors. If the policy is trained across a wide enough parameter range that the deployment distribution is hopefully inside the convex hull of training.
 
