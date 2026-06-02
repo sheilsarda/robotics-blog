@@ -88,32 +88,12 @@ body {
   color: var(--ink);
   text-decoration: none;
   letter-spacing: -0.02em;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   transition: color 0.2s var(--ease);
-}
-
-.site-title::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: var(--purple);
-  border-radius: 3px;
-  flex-shrink: 0;
-  box-shadow: 0 0 0 3px var(--purple-glow);
-  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 
 .site-title:hover {
   color: var(--purple);
   text-decoration: none;
-}
-
-.site-title:hover::before {
-  transform: rotate(90deg) scale(1.05);
-  box-shadow: 0 0 0 5px var(--purple-glow);
 }
 
 .link-sep {
@@ -573,8 +553,7 @@ main > section > p,
     animation: none;
   }
 
-  .post-card,
-  .site-title::before {
+  .post-card {
     transition: none;
   }
 }
