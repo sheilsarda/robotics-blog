@@ -7,9 +7,20 @@ layout: default
 </section>
 
 <h4>Posts</h4>
-<ul>
+<ul class="post-list">
   {% for post in site.posts %}
-  <li><strong><a href="{{ post.url | relative_url }}">{{ post.title }}</a></strong>{% if post.description %} — {{ post.description }}{% endif %}</li>
+  {% assign words = post.content | number_of_words %}
+  {% assign read_time = words | plus: 149 | divided_by: 150 %}
+  {% if read_time < 1 %}{% assign read_time = 1 %}{% endif %}
+  <li class="post-preview">
+    <strong><a href="{{ post.url | relative_url }}">{{ post.title }}</a></strong>
+    <p class="post-meta">
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+      · {{ words | number_with_delimiter }} words
+      · {{ read_time }} min read
+    </p>
+    {% if post.description %}<p class="post-description">{{ post.description }}</p>{% endif %}
+  </li>
   {% endfor %}
 </ul>
 

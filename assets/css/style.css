@@ -86,12 +86,12 @@ h4 {
 }
 
 /* --- Post list --- */
-ul {
+.post-list {
   list-style: none;
   padding: 0;
 }
 
-li {
+.post-list li {
   padding: 20px 0;
   border-bottom: 1px solid #F3F4F6;
   line-height: 1.6;
@@ -99,11 +99,11 @@ li {
   font-size: 16px;
 }
 
-li:last-child {
+.post-list li:last-child {
   border-bottom: none;
 }
 
-li strong {
+.post-list li strong {
   display: block;
   font-size: 19px;
   font-weight: 700;
@@ -112,15 +112,30 @@ li strong {
   margin-bottom: 2px;
 }
 
-li strong a {
+.post-list li strong a {
   color: #000;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
-li strong a:hover {
+.post-list li strong a:hover {
   color: #7C3AED;
   text-decoration: none;
+}
+
+.post-meta {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin: 6px 0 8px;
+  letter-spacing: 0.01em;
+}
+
+.post-meta time {
+  color: #6B7280;
+}
+
+.post-description {
+  margin: 0;
 }
 
 /* --- Horizontal rules --- */
@@ -276,7 +291,7 @@ main p:last-child,
     font-size: 28px;
   }
 
-  li strong {
+  .post-list li strong {
     font-size: 17px;
   }
 }
