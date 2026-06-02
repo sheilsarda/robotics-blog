@@ -1,5 +1,6 @@
 ---
 title: "Is It Possible to Run a Vision-Language-Action Model in a Safety-Critical Loop?"
+short_title: "VLAs in safety-critical loops"
 date: 2026-05-07
 slug: vlas-in-safety-critical-applications
 description: "The intersection of sampling-based model predictive control and control barrier functions."

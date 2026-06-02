@@ -128,7 +128,7 @@ body {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  font-size: 13px;
 }
 
 .nav-link {
@@ -136,17 +136,18 @@ body {
   font-weight: 500;
   color: var(--ink-faint);
   text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  transition: color 0.2s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease);
+  transition: color 0.2s var(--ease);
 }
 
 .nav-link:hover {
   color: var(--purple);
-  background: var(--purple-light);
-  border-color: rgba(124, 58, 237, 0.12);
   text-decoration: none;
+}
+
+.link-sep {
+  margin: 0 0.55em;
+  color: var(--border);
+  user-select: none;
 }
 
 /* --- Hero (homepage) --- */
@@ -154,32 +155,17 @@ body {
   padding: 48px 0 40px;
 }
 
-.hero-eyebrow {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--purple);
-  background: var(--purple-light);
-  border: 1px solid rgba(124, 58, 237, 0.15);
-  padding: 5px 12px;
-  border-radius: 999px;
-  margin-bottom: 20px;
-}
-
 .hero-title {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.85rem, 4.5vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
   color: var(--ink);
   max-width: 640px;
 }
 
 /* --- Section labels --- */
-.section-label,
-.about-section h2 {
+.section-label {
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -201,34 +187,19 @@ body {
   margin-bottom: 1.2em;
 }
 
-.about-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 8px !important;
-}
-
-.social-link {
-  display: inline-flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 500;
+.about-bio {
+  font-size: 17px;
   color: var(--ink);
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), color 0.2s var(--ease);
 }
 
-.social-link:hover {
-  color: var(--purple);
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
-  text-decoration: none;
+.about-links {
+  margin-top: 4px !important;
+  margin-bottom: 0 !important;
+  font-size: 16px;
+}
+
+.about-links a:hover {
+  text-decoration: underline;
 }
 
 /* --- Legacy section headings (h4 in content) --- */
@@ -286,20 +257,20 @@ h4 {
 }
 
 .post-card-link {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
+  display: block;
   text-decoration: none;
   margin-bottom: 12px;
 }
 
 .post-card-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
-  letter-spacing: -0.02em;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
   color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: color 0.2s var(--ease);
 }
 
@@ -307,25 +278,11 @@ h4 {
   color: var(--purple);
 }
 
-.post-card-arrow {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  background: var(--border-subtle);
-  color: var(--ink-faint);
-  font-size: 16px;
-  line-height: 1;
-  transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.25s var(--ease);
-}
-
-.post-card:hover .post-card-arrow {
-  background: var(--purple);
-  color: #fff;
-  transform: translate(2px, -2px);
+.post-card-full-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-muted);
 }
 
 .post-meta {
@@ -575,7 +532,7 @@ main > section > p,
   }
 
   .post-card-title {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .post-header h1 {
@@ -600,9 +557,7 @@ main > section > p,
   }
 
   .post-card,
-  .post-card-arrow,
   .site-title::before,
-  .social-link,
   .nav-link {
     transition: none;
   }

@@ -2,11 +2,8 @@
 layout: default
 ---
 
-{% assign post_count = site.posts | size %}
-
 <section class="hero">
-  <p class="hero-eyebrow">{{ post_count }} {% if post_count == 1 %}essay{% else %}essays{% endif %} on robots, models, and control</p>
-  <h1 class="hero-title">{{ site.description }}</h1>
+  <h1 class="hero-title">{{ site.tagline }}</h1>
 </section>
 
 <section class="posts-section">
@@ -19,9 +16,12 @@ layout: default
     <li class="post-preview" style="--i: {{ forloop.index0 }}">
       <article class="post-card">
         <a href="{{ post.url | relative_url }}" class="post-card-link">
-          <h3 class="post-card-title">{{ post.title }}</h3>
-          <span class="post-card-arrow" aria-hidden="true">&rarr;</span>
+          <h3 class="post-card-title">{{ post.short_title | default: post.title }}</h3>
         </a>
+        {% assign card_title = post.short_title | default: post.title %}
+        {% if post.title != card_title %}
+        <p class="post-card-full-title">{{ post.title }}</p>
+        {% endif %}
         <div class="post-meta">
           <span class="meta-badge meta-badge--date">
             <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
@@ -37,5 +37,10 @@ layout: default
 </section>
 
 <section class="about-section">
+  <h2 class="section-label">About</h2>
+  <p class="about-bio">{{ site.description }}</p>
   {{ content }}
+  <p class="about-links">
+    <a href="https://github.com/sheilsarda">GitHub</a><span class="link-sep">|</span><a href="https://linkedin.com/in/sheilsarda">LinkedIn</a>
+  </p>
 </section>
