@@ -1,0 +1,46 @@
+﻿PAGE 10
+124 134 Optimization
+124 134 GB200
+141 151 Baseline
+288 298 Table 1: Cumulative inference speedups. Each row
+402 412 YAM robot and human egocentric data. The experimental setup for AgiBot G1 is illustra
+666 676 Figure 15), including homes, restaurants, supermarkets, coffee shops, and officesùpri
+679 689 and real-world utility over task-specific repetition. As shown in Figure 6, each epis
+PAGE 14
+106 111 85.7
+150 156 35.7
+340 350 Figure 9: Zero-shot Generalization to Unseen Tasks. DreamZero achieves non-trivial ta
+386 396 alignment between generated videos and real-world execution, even for suboptimal beha
+464 474 Figure 9 evaluates generalization to 10 tasks entirely absent from the pretraining di
+512 522 on averageùwith strong performance on tasks like ôRemove Hat from Mannequinö (85.7%) 
+rtc 223 Abstract
+rtc 248 Modern AI systems, especially those interacting with the phy
+rtc 259 ingly require real-time performance. However, the high laten
+rtc 270 generalist models, including recent vision-language-action m
+rtc 281 a significant challenge. While action chunking has enabled t
+rtc 291 in high-frequency control tasks, it does not fully address t
+rtc 302 leading to pauses or out-of-distribution jerky movements at 
+rtc 313 This paper presents a novel inference-time algorithm that en
+rtc 324 chronous execution of action chunking policies. Our method, 
+rtc 335 (RTC), is applicable to any diffusion- or flow-based VLA out
+rtc 346 re-training. It generates the next action chunk while execut
+rtc 357 ôfreezingö actions guaranteed to execute and ôinpaintingö th
+rtc 368 introduce a new benchmark of 12 highly dynamic tasks in the 
+rtc 379 as well as evaluate 6 challenging real-world bimanual manipu
+rtc 390 demonstrate that RTC is fast, performant, and uniquely robus
+rtc 401 significantly improving task throughput and enabling high su
+rtc 411 tasksùsuch as lighting a matchùeven in the presence of signi
+rtc 422 https://pi.website/research/real_time_chunking for videos.
+rtc 584 deg
+rtc 552 Position
+rtc 618 Time (s)
+rtc 580 deg/s
+rtc 552 Velocity
+rtc 578 deg/s▓
+rtc 552 Acceleration
+rtc 595 Real-time chunking (ours)
+rtc 605 Synchronous
+rtc 616 Temporal ensembling (Zhao et. al.)
+rtc 636 Figure 1: Top: Real-time chunking (RTC) enables the robot to
+rtc 646 such as lighting a matchùeven in the presence of inference d
+rtc 225 arXiv:2506.07339v2  [cs.RO]  5 Dec 2025

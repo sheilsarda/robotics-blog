@@ -1,0 +1,18 @@
+﻿=== 2506.07339 ===
+page 1 height 792.0
+223 'Abstract'
+636 'Figure 1: Top: Real-time chunking (RTC) enables the robot to perform h'
+=== 2505.23705 ===
+page 2 height 792.0
+185 'Figure 1: The key idea of our approach is to train the VLM backbone wi'
+515 'We illustrate this in Figure 1. In effect, the discrete action tokens '
+=== 2602.15922 ===
+page 13 height 841.8900146484375
+451 'Figure 8: Seen Task Evaluation. DreamZero effectively learns from dive'
+576 'environments with unseen objects. Results are shown in Figure 8.'
+=== 2602.15922 ===
+page 10 height 841.8900146484375
+288 'Table 1: Cumulative inference speedups. Each row'
+402 'YAM robot and human egocentric data. The experimental setup for AgiBot'
+666 'Figure 15), including homes, restaurants, supermarkets, coffee shops, '
+679 'and real-world utility over task-specific repetition. As shown in Figu'
