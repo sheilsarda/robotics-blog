@@ -37,3 +37,6 @@ ehthumbs.db
 # Substack export (local only)
 _substack-export/
 
+# arXiv PDF cache for figure extraction (re-download via scripts)
+_drafts/_pdf_audit/
+
