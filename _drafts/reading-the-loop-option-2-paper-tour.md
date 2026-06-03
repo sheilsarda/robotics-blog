@@ -4,6 +4,8 @@ short_title: "Reading the loop"
 date: 2026-06-03
 slug: model-scorecards
 description: "Three lenses on five companies, one pick, and where robot control as a video prediction problem actually pays off."
+visual_variant: "option-2-paper-tour"
+draft: true
 ---
 
 ## Glossary
@@ -26,9 +28,6 @@ description: "Three lenses on five companies, one pick, and where robot control 
 
 **World Action Model (WAM).** NVIDIA GEAR's name for a model that predicts future video and the actions that produce it jointly, inside one network, rather than bolting an action decoder onto a separate video model. DreamZero is the reference implementation.
 
-![Rate stack: where each company closes the loop]({{ site.baseurl }}/assets/posts/model-scorecards/option3/rate-stack-ladder.png)
-
-
 ## The disclosure tell
 
 Every robot foundation model company publishes a blog, and most of them publish a number. Dyna folds napkins at 99.4% over a 24 hour run. Generalist reports 99% on tasks where its prior model managed 64. The numbers are real and the demos are uncut. They are also close to useless for telling you whether the full control stack closes the loop in the field, because a success rate on a self-chosen task is a marketing artifact, not a benchmark.
@@ -43,17 +42,17 @@ Two of the five disclose enough to defend. One of those two has the most coheren
 
 Physical Intelligence is the only company on this list whose stack you can read end to end without a non-disclosure gap.
 
-![π0 VLM plus flow-matching action expert (Black et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option3/pi0-architecture-paper.png)
+![π0 architecture: VLM backbone and flow-matching action expert (Black et al.)](../assets/posts/model-scorecards/option2/pi0-architecture-paper.png)
 
 
 π0 (arXiv 2410.24164) pairs a 3B-parameter vision-language backbone with a separate action expert that emits continuous actions by flow matching, which is how it drives dexterous tasks like laundry folding in action chunks at up to 50 Hz. π0.5 (arXiv 2504.16054) adds open-world generalization with a two-level inference pass: the model first writes the next subtask in language, then the action expert produces the motor commands. Knowledge Insulation (arXiv 2505.23705) trains the backbone on discrete action tokens while the expert learns continuous control, with gradients blocked between the two so the language prior survives training.
 
-![Knowledge Insulating Vision-Language-Action Models (Physical Intelligence et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option2/knowledge-insulation-paper.png)
+![Knowledge Insulating Vision-Language-Action Models (Physical Intelligence et al.)](../assets/posts/model-scorecards/option2/knowledge-insulation-paper.png)
 
 
 Then there is the piece that decides the argument. Real-Time Execution of Action Chunking Flow Policies (arXiv 2506.07339, NeurIPS 2025) generates the next action chunk while the current one is still executing, and holds up under inference delays above 300 ms, more than 30% of the prediction horizon, at roughly 97 ms of model latency. Pi released the weights through openpi. That is a control loop you can audit, latency budget included.
 
-![Real-time execution of action chunking flow policies (Black et al., NeurIPS 2025)]({{ site.baseurl }}/assets/posts/model-scorecards/option2/rtc-paper.png)
+![Real-time execution of action chunking flow policies (Black et al., NeurIPS 2025)](../assets/posts/model-scorecards/option2/rtc-paper.png)
 
 
 The contrast with the rest is sharp on the first lens. Dyna Robotics publishes the most convincing deployment evidence in the group, DYNA-1 folding napkins at 99.4% over a 24 hour run with no human intervention, on the back of a scalable reward model that lets the system recover from its own errors and generate its own training data. What Dyna does not publish is a rate stack, an action representation, or a model card. The 24 hour number is the strongest robustness signal here, and it is also a self-run demo on a task the company chose. High on deployment, low on legibility.
@@ -72,20 +71,19 @@ Rhoda AI came out of stealth in March 2026 with $450M and a reported $1.7B valua
 
 The idea is not new. UniPi (arXiv 2302.00111) framed control as text-guided video generation with an inverse model recovering the actions, back in 2023.
 
-![UniPi: learning universal policies via text-guided video generation (Du et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option2/unipi-paper.png)
+![UniPi: learning universal policies via text-guided video generation (Du et al.)](../assets/posts/model-scorecards/option2/unipi-paper.png)
 
 
 AVDC (arXiv 2310.08576) learned to act from actionless video through dense correspondences. GR-2 (arXiv 2410.06158) pretrained on 38 million clips and reported 97.7% across more than 100 tasks. What Rhoda adds is two engineering claims: training the video model causally from scratch rather than distilling a bidirectional one, and running full video denoising inside a real-time closed loop, with training and inference tricks (it calls them Context Amortization and Leapfrog Inference) to hide the generation latency. The economic claim is the sharp one. Decanting was post-trained on 11 hours of robot data, container breakdown on 17, and the inverse dynamics model can be trained on random, non-expert motion.
 
 In February 2026, NVIDIA's GEAR lab made that bet concrete and, unlike Rhoda, fully open. DreamZero (arXiv 2602.15922), led in part by Jim Fan and Yuke Zhu, is a 14B model built on the open Wan2.1 image-to-video diffusion backbone, and where Rhoda trains its video model from scratch, DreamZero fine-tunes a pretrained one. It also collapses Rhoda's two boxes into one: a single autoregressive diffusion transformer trained with a joint video-and-action flow-matching objective, so the inverse dynamics fall out of the same network that predicts the frames rather than living in a second model. NVIDIA calls this a World Action Model. The team trained it on roughly 500 hours of deliberately diverse, non-repetitive teleoperation across 22 real environments, then benchmarked it head to head against π0.5 and GR00T N1.6 on shared AgiBot and DROID tasks, with weights, code, and eval sets released. This is the disclosure Rhoda withholds, from the same thesis.
 
-![DreamZero World Action Model closed-loop architecture (Ye et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option3/dreamzero-wam-paper.png)
+![DreamZero World Action Model architecture (Ye et al.)](../assets/posts/model-scorecards/option2/dreamzero-architecture-paper.png)
 
 
 The numbers matter for both halves of this post. On generalization to new environments and objects, DreamZero reaches 62.2% average task progress against 27.4% for the best pretrained VLA baseline, more than two times better, and on tasks entirely absent from training it hits 39.5% where from-scratch VLAs score under one percent. On data, it is more aggressive than Rhoda: it adapts to a brand new robot on 30 minutes of play data, 55 trajectories, and lifts unseen-task performance using 10 to 20 minutes of video-only demonstrations from another robot or a human, with no action labels at all. And on the loop, it does what the literature kept saying could not be done, closing a video-generation control loop in real time, but the asterisk is the whole argument: it reaches 7 Hz only on two GB200s, after a 38x optimization pass that cut latency from 5.7 seconds to 150 milliseconds per chunk, and the paper concedes that a VLA runs above 20 Hz on a single consumer GPU. Edge deployment is named as future work.
 
-![DreamZero seen-task evaluation vs π0.5 and GR00T N1.6 (Ye et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option2/dreamzero-benchmark-paper.png)
-![DreamZero unseen-task generalization benchmark (Ye et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option3/dreamzero-benchmark-paper.png)
+![DreamZero head-to-head benchmark vs π0.5 and GR00T N1.6 (Ye et al.)](../assets/posts/model-scorecards/option2/dreamzero-benchmark-paper.png)
 
 
 On generalizability, I am bullish with caveats. Predicting video lets the pretraining objective absorb internet-scale human video, and the literature is consistent that video pretraining transfers to new objects, backgrounds, and tasks. Rhoda's long-context memory and its one-shot following of a human demonstration at test time, with no weight update, are real affordances that action-chunking VLAs do not have natively. The caveat is the embodiment gap. A human hand in an internet video is not a parallel gripper, and the inverse dynamics model still has to be trained per embodiment. So I read this as plausibly better cross-task transfer than a VLA. The cross-embodiment claim is no longer just Rhoda's to assert: DreamZero posts a robot-to-robot and a human-to-robot transfer on a shared benchmark, at moderate absolute success, which is more evidence than Pi's direct cross-embodiment training has had to face. The embodiment gap is narrower than I assumed, though the inverse dynamics still train per robot.
@@ -94,12 +92,12 @@ On ease of data collection, this is the strongest leg of the thesis and the part
 
 On total addressable market, I am mixed. The tasks Rhoda actually shows, decanting, container breakdown, returns processing, sorting, packing, are exactly the high-mix, low-rate, quasi-static manipulation tasks that Pi, Dyna, and Generalist are also chasing in warehousing and light manufacturing. That is a large market, but it is a contested one, not a market the video approach unlocks alone. The expansion case is high-speed, contact-rich work, fast assembly and dynamic handling, and that is precisely where video generation's cost becomes the binding constraint. DreamZero puts a price on that constraint: it needs two datacenter GPUs to hold 7 Hz, while a flow-matching VLA clears 20 Hz on one consumer card. The high-speed half of the market is exactly where that gap bites.
 
-![DreamZero inference latency optimization (Ye et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option2/dreamzero-latency-paper.png)
+![DreamZero inference latency optimization (Ye et al.)](../assets/posts/model-scorecards/option2/dreamzero-latency-paper.png)
 
 
 This is where the serious counter-position lives, and it comes from the company I picked. Physical Intelligence's position, shared in spirit by Toyota Research Institute's Large Behavior Models (arXiv 2507.05331), is that you do not need to generate video to close the loop. Action chunking with flow matching already drives dexterous tasks at 50 Hz, and RTC already survives the latency that breaks naive loops, without paying to denoise a video at control rate. TRI makes the same point from the scaling side: a multitask diffusion transformer predicting 1.6-second chunks gets dexterous manipulation without exotic machinery, and multitask pretraining cuts per-task data by about 80%.
 
-![Toyota Research Institute Large Behavior Models (TRI et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option2/tri-lbm-paper.png)
+![Toyota Research Institute Large Behavior Models (TRI et al.)](../assets/posts/model-scorecards/option2/tri-lbm-paper.png)
 
 
 The strongest form of this is an inference-economics argument, and it is correct on its own terms. Video diffusion is repeatedly described in the literature as too slow for real-time control. MinD (arXiv 2506.18897) says exactly that, and the cases that do run in real time do so at very low resolution, around 5 Hz at 96 by 160 in VILP (arXiv 2502.01784). DreamZero now quantifies the same point from inside the video camp: a 14B video model reaches 7 Hz only after a 38x optimization pass and only on two GB200s, an order of magnitude more compute than the VLA it beats on generalization.
@@ -115,9 +113,6 @@ Most of the artifact that would settle the argument now exists. DreamZero closed
 Here is the falsifiable version, and DreamZero has already settled two thirds of it. The original test was three-part: a head-to-head success table against a flow-matching VLA, transfer to a new embodiment on ten hours or less of inverse-dynamics data, and on-robot closed-loop inference at 10 Hz or better on embedded hardware. The first two are done, in February 2026, well ahead of my 2027 date: the table exists, and the embodiment transfer happened on thirty minutes. The third is not, and it is the one that decides the pick. DreamZero runs at 7 Hz on two datacenter GPUs, which is the datacenter outcome I said would keep action chunking ahead, not the embedded one that would flip it. So the prediction sharpens to a single gate. The pick flips when a video-prediction policy holds 10 Hz or better on hardware you could mount on the robot, a single consumer-class GPU rather than a pair of GB200s. Everything else the video camp needed, it now has.
 
 The bet I would actually make still sits between the two camps, and DreamZero is an argument for it, not against it. Put a video-prediction model on top, proposing at low rate from the internet-video prior, and a flow-matching controller underneath, closing the loop at 200 Hz. Slow-propose, fast-comply. NVIDIA labels DreamZero the other way around, as a System 1 it hopes to shrink onto an edge device with a System 2 planner stacked above it, but its own economics, two GB200s for 7 Hz, are the strongest case I have seen that video generation belongs in the slow half of the stack, not the fast loop where the robot actually lives.
-
-![Slow-propose, fast-comply hybrid control stack]({{ site.baseurl }}/assets/posts/model-scorecards/option3/slow-propose-fast-comply.png)
-
 
 ## References
 
@@ -173,10 +168,6 @@ Du, Yilun, et al. "Learning Universal Policies via Text-Guided Video Generation.
 
 Physical Intelligence, et al. "Knowledge Insulating Vision-Language-Action Models: Train Fast, Run Fast, Generalize Better." *arXiv*, May 2025, arxiv.org/abs/2505.23705. Figure 1 reproduced from arXiv PDF page 2 for commentary.
 
-Sarda, Sheil. "Rate Stack Ladder for Robot Foundation Models." *Diagram*, 2 June 2026. Robotics blog illustration.
-
-Sarda, Sheil. "Slow-Propose, Fast-Comply Hybrid Stack." *Diagram*, 2 June 2026. Robotics blog illustration.
-
 Toyota Research Institute. "A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation." *arXiv*, 7 July 2025, arxiv.org/abs/2507.05331. Figure 9 reproduced from arXiv PDF page 12 for commentary.
 
-Ye, Seonghyeon, et al. "World Action Models are Zero-shot Policies." *arXiv*, 17 Feb. 2026, arxiv.org/abs/2602.15922. Figure 4, Figure 8, Figure 9, and Table 1 reproduced from arXiv PDF pages 6, 13, 14, and 10 for commentary.
+Ye, Seonghyeon, et al. "World Action Models are Zero-shot Policies." *arXiv*, 17 Feb. 2026, arxiv.org/abs/2602.15922. Figure 4, Figure 8, and Table 1 reproduced from arXiv PDF pages 6, 13, and 10 for commentary.
