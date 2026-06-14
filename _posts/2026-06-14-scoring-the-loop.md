@@ -72,6 +72,42 @@ Two reads come off the same matrix. The substance read is which company posts th
 
 The interesting pattern is that no single company sweeps. The two open labs, Physical Intelligence and NVIDIA, split the field on the deepest axes: PI owns the real-time loop, NVIDIA owns capability and data economics, and they are attacking from opposite paradigms. That split is not noise. It is the structure of the end-market question.
 
+## The two clocks
+
+The scorecard ranks companies axis by axis, but it hides the tradeoff they are all making. Two of the four axes are costs, and they are the costs that decide whether a company can scale. Reframe each as a clock. The learning clock is how long it takes to onboard a new task, measured in hours of robot data. The control clock is how long each action takes to compute, measured in milliseconds and in the silicon required to hit control rate. The two are orthogonal. A company's data cost does not predict its inference cost, which is exactly what makes them a clean 2x2.
+
+```
+                       CHEAP TO TEACH               EXPENSIVE TO TEACH
+                    (low data cost / new task)    (pays for robot data)
+                  +-----------------------------+-----------------------------+
+  EXPENSIVE       |                             |                             |
+  TO RUN          |   X  DreamZero              |                             |
+  (datacenter,    |   X  Rhoda *                |        (loser corner)       |
+   ~2x GB200,     |                             |           empty             |
+   7 Hz)          |   [ video-prediction camp ] |                             |
+                  |                             |                             |
+                  +-------- X Generalist * -----+-----------------------------+
+                  |                             |                             |
+  CHEAP           |   ★ THE FRONTIER            |   X  Physical Intelligence  |
+  TO RUN          |   cheap to teach AND run    |   X  TRI                    |
+  (edge / 1 GPU,  |   NO CONFIRMED OCCUPANT     |                             |
+   ~50 Hz)        |                             |   [ flow-matching VLA camp ]|
+                  |                             |                             |
+                  +------------ X Dyna * -------+-----------------------------+
+
+  *  one clock undisclosed; placement inferred, sits on the border not the corner
+  Skild AI: off-map. Neither clock disclosed.
+```
+
+![The two clocks: where each robot foundation model pays its cost]({{ site.baseurl }}/assets/posts/model-scorecards/option3/two-clocks.png)
+
+
+The field splits across the anti-diagonal, and the split is the whole story. The video-prediction camp sits top-left, cheap to teach and expensive to run. DreamZero onboards a new robot on 30 minutes of play and an unseen task on 10 to 20 minutes of video, then pays for it at 7 Hz on two GB200s. Rhoda makes the same trade on 10 to 20 hours per task off an internet-video prior, though its run clock is an outside analyst's 10 Hz estimate rather than a disclosed number, so it sits on the border with a dashed mark. The flow-matching camp sits bottom-right, the mirror image. Physical Intelligence and TRI pay for teleoperation up front, then run the loop cheap, 50 Hz on a single RTX 5090 with RTC holding past 300 ms of delay.
+
+The placements that cannot be pinned are the revealing ones. Generalist onboards a task on one hour of robot data, which fixes it in the cheap-to-teach column, but it never specifies the loop to a control rate, so its control clock is unknown and it floats on the left border. Dyna runs deployed on edge hardware around the clock, which fixes its control clock cheap, but it has shown only one task, so the marginal cost of the next one is undisclosed and it floats on the bottom border. Skild discloses neither clock, so it cannot be placed at all, off-map at a $14B valuation.
+
+The corner that decides the field is empty. Nobody has confirmed a policy that is both cheap to teach and cheap to run. That empty frontier is the prediction the rest of this post builds toward. The company that reaches the bottom-left corner wins, and slow-propose, fast-comply is the explicit attempt to get there by stacking the top-left camp's data-cheap prior over the bottom-right camp's run-cheap loop.
+
 ![DreamZero inference latency optimization (Ye et al.)]({{ site.baseurl }}/assets/posts/model-scorecards/option2/dreamzero-latency-paper.png)
 
 
