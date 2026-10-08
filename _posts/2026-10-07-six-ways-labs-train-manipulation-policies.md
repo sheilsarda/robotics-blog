@@ -98,7 +98,7 @@ Rejection-sampling fine-tuning is the cheap first step: [Yuan et al.](https://ar
 
 A vision-language-action model (VLA) is a pretrained vision-language model adapted to output robot actions. For VLAs, the fine-tuning recipe matters as much as the base model: [OpenVLA-OFT](https://arxiv.org/abs/2502.19645) took LIBERO, a simulated manipulation benchmark, from 76.5% to 97.1% by changing the decoding, action chunking and loss. [π0](https://arxiv.org/abs/2410.24164), [π0.5](https://arxiv.org/abs/2504.16054), [GR00T N1](https://arxiv.org/abs/2503.14734) and [MolmoAct2](https://arxiv.org/abs/2605.02881) all pretrain on broad data, then fine-tune on curated teleoperation data. MolmoAct2 used 720 hours of bimanual teleop on YAM arms, for instance.
 
-[The next post]({{ site.baseurl }}/blog/getting-grpo-to-run-on-our-own-robot-tasks/) covers getting this recipe running on our own tasks: one action interface, seeded starts for GRPO, progress rewards a coding model writes from each success check, and the Miles plumbing underneath.
+A follow-up post will cover getting this recipe running on our own tasks: one action interface, seeded starts for GRPO, progress rewards a coding model writes from each success check, and the Miles plumbing underneath.
 
 ## Appendix: Glossary of terms
 
