@@ -1,0 +1,24 @@
+{
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "-apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif",
+    "fontSize": "15px",
+    "primaryTextColor": "#202020",
+    "lineColor": "#4a4a4a",
+    "actorBkg": "#ffffff",
+    "actorBorder": "#6b6b6b",
+    "actorTextColor": "#202020",
+    "actorLineColor": "#9a9a9a",
+    "signalColor": "#333333",
+    "signalTextColor": "#202020",
+    "labelBoxBkgColor": "#f2f2f2",
+    "labelBoxBorderColor": "#8a8a8a",
+    "labelTextColor": "#202020",
+    "loopTextColor": "#202020",
+    "noteBkgColor": "#fff6dc",
+    "noteBorderColor": "#c9a64b",
+    "noteTextColor": "#202020",
+    "sequenceNumberColor": "#ffffff"
+  },
+  "sequence": {"mirrorActors": false, "useMaxWidth": true, "wrap": true, "actorMargin": 50, "messageMargin": 40}
+}
