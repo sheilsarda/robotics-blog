@@ -4,10 +4,9 @@ date: 2026-10-07
 slug: six-ways-labs-train-manipulation-policies
 ---
 
-I went to IROS2026 with Moonlake this year, and we had a cool demo showing-off code-as-policy as a quick & efficient way to do semi-repeatable tasks. We used vision models like SAM3 to close the gap between perfectly repeatable initial states vs dynamic states we'd never observed before.
-The focus of workshops and talks I went to was in understanding what efficiencies in task and policy formulation foundation models unlock, and how we can use it to accelerate Reinforcement learning, SFT, etc.
+I went to IROS 2026 with Moonlake. Our demo ran code-as-policy on semi-repeatable tasks: the robot's program stayed fixed while SAM3 located the objects, so one script handled layouts we had not staged before. The workshops I sat in kept returning to one question: which parts of writing a task and a policy can a foundation model take over, and how much does that speed up reinforcement learning and supervised fine-tuning.
 
-A few key themes stood out:
+Four themes stood out:
 - We can use LLMs and VLMs to formulate PDDL (Planning Domain Definition Language); used in TAMP (Task and Motion Planning)
 - We can use VLMs to supervise VLA reinforcement learning (and even the reward functions can be auto-generated)
 - We can use coding agents that are AITL (Agent In The Loop) to generate trajectories to behavior-clone / fine-tune VLAs with, in lieu of real teleoperation
