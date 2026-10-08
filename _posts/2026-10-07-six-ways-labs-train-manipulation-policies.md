@@ -2,10 +2,7 @@
 title: "From demonstrations to reinforcement learning for robot policies"
 date: 2026-10-07
 slug: six-ways-labs-train-manipulation-policies
-description: "Notes from IROS 2026 and a survey, with checked numbers, of the six ways robotics labs train manipulation policies, from behavior cloning to RL on real robots."
 ---
-
-*Six ways robotics labs train manipulation policies, with the numbers I could check, and where our own work sits on that map.*
 
 I went to IROS2026 with Moonlake this year, and we had a cool demo showing-off code-as-policy as a quick & efficient way to do semi-repeatable tasks. We used vision models like SAM3 to close the gap between perfectly repeatable initial states vs dynamic states we'd never observed before.
 The focus of workshops and talks I went to was in understanding what efficiencies in task and policy formulation foundation models unlock, and how we can use it to accelerate Reinforcement learning, SFT, etc.

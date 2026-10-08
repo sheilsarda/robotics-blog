@@ -2,10 +2,7 @@
 title: "Getting GRPO to run on our own robot tasks"
 date: 2026-10-07
 slug: getting-grpo-to-run-on-our-own-robot-tasks
-description: "What RL needs from us before it runs on our Isaac Lab Arena tasks: one action interface, seeded starts for GRPO, progress rewards a coding model writes, and the Miles plumbing underneath."
 ---
-
-*What reinforcement learning needs from us before it runs on our own Isaac Lab Arena tasks, and why the reward decides whether it learns anything.*
 
 On October 2, Qi reported the first reinforcement learning run at Moonlake: GRPO on a drawer-opening task, starting from a model fine-tuned on demonstrations. A 0-or-1 success reward taught it nothing. A reward on how far the drawer opened rose steadily and produced one successful rollout after two epochs. That one result is the thread through this post: what RL needs from us before it can run on our own Isaac Lab Arena tasks, and why the reward is the part that decides whether it learns anything.
 
