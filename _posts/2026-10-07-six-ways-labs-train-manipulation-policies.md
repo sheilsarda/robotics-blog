@@ -25,7 +25,7 @@ Robotics labs have converged on six ways to train a manipulation policy. I list 
 | Generative models as data engines | Offline | A generation or editing model and seed demonstrations |
 | Improving the skill library and prompt | Practice in simulation, then short real sessions | A coding agent, a simulator, an editable toolbox |
 
-![Dumbbell chart of success rates reported by the papers in this section, grouped by the six training methods. Light dots mark the baseline each paper starts from and dark dots the result with the method; each row is labeled sim or real.]({{ site.baseurl }}/assets/posts/six-ways-labs-train-manipulation-policies/training-methods-success-rates.png)
+![Dumbbell chart of success rates reported by the papers in this section, grouped by the six training methods. Light dots mark the baseline each paper starts from and dark dots the result with the method; each row is labeled sim or real.]({{ site.baseurl }}/assets/posts/six-ways-labs-train-manipulation-policies/training-methods-success-rates.png?v=2)
 
 *Success rates the papers below report, grouped by method. A light dot is the baseline a paper starts from and a dark dot is the result with the method, with each row marked sim or real. Results that are not success rates, such as MimicGen's demo multiplication and RECAP's throughput, stay in the text.*
 
