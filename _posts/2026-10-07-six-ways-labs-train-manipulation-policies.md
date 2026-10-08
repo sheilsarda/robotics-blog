@@ -16,6 +16,15 @@ I went to IROS 2026 with Moonlake. Our demo ran code-as-policy on semi-repeatabl
 
 Robotics labs have converged on six ways to train a manipulation policy. I list them with the evidence I could check against each paper.
 
+| Method | What gets updated | Where it learns | What you need | Evidence |
+| --- | --- | --- | --- | --- |
+| Behavior cloning | Policy weights | Offline, on demonstrations | Teleop, handheld-gripper or human-video demos, or demos multiplied and generated in simulation | Robot Utility Models: 90% in unseen homes. Guava: 90% on a real Franka from simulated demos alone |
+| Reinforcement learning in simulation | Policy weights, from an SFT start | A simulator | Resets to the same scene, a reward, and simulator throughput | SimpleVLA-RL: LIBERO 48.9% to 96.9%. πRL: ManiSkill 40.1% to 90.9% |
+| Distilling a frontier model's rollouts | A smaller model's weights | On the teacher's successful rollouts, mostly in simulation | A frontier model, a shared action interface, a success filter | Guava's 4B student lands within 3.3 points of GPT-5.4 at 7.1x lower latency |
+| Reinforcement learning on the real robot | Policy weights | On hardware | Robot time, plus human corrections or agent-written resets and verification | Real-Time EXPO-FT: 42% to 97% from 10 minutes of data. ConRFT: 96.3% over eight tasks |
+| Generative models as data engines | The training data, then weights by cloning | Offline | A generation or editing model and seed demonstrations | U0: π0.5 out of distribution 36.9% to 63.2%. Relighting: +38.75 points under new lighting |
+| Improving the skill library and prompt | Code and prompts; weights stay frozen | Practice in simulation, then short real sessions | A coding agent, a simulator, an editable toolbox | RPG: 28.6% to 95.0% in simulation, then 30 of 30 real trials. SimEX: 67% to 82% on a model swap |
+
 ![Dumbbell chart of success rates reported by the papers in this section, grouped by the six training methods. Light dots mark the baseline each paper starts from and dark dots the result with the method; each row is labeled sim or real.]({{ site.baseurl }}/assets/posts/six-ways-labs-train-manipulation-policies/training-methods-success-rates.png)
 
 *Success rates the papers below report, grouped by method. A light dot is the baseline a paper starts from and a dark dot is the result with the method, with each row marked sim or real. Results that are not success rates, such as MimicGen's demo multiplication and RECAP's throughput, stay in the text.*
