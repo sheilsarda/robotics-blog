@@ -7,13 +7,13 @@ slug: six-ways-labs-train-manipulation-policies
 I went to IROS2026 with Moonlake this year, and we had a cool demo showing-off code-as-policy as a quick & efficient way to do semi-repeatable tasks. We used vision models like SAM3 to close the gap between perfectly repeatable initial states vs dynamic states we'd never observed before.
 The focus of workshops and talks I went to was in understanding what efficiencies in task and policy formulation foundation models unlock, and how we can use it to accelerate Reinforcement learning, SFT, etc.
 
-A few keys themes stood out:
+A few key themes stood out:
 - We can use LLMs and VLMs to formulate PDDL (Planning Domain Definition Language); used in TAMP (Task and Motion Planning)
 - We can use VLMs to supervise VLA reinforcement learning (and even the reward functions can be auto-generated)
 - We can use coding agents that are AITL (Agent In The Loop) to generate trajectories to behavior-clone / fine-tune VLAs with, in lieu of real teleoperation
 - We can use a coding agent with vision (e.g., Astra) to do real2sim, system identification, scene understanding, task formulation, etc.
 
-Robotics labs have converged on four ways to train a manipulation policy. I list them with the evidence I could check against each paper.
+Robotics labs have converged on six ways to train a manipulation policy. I list them with the evidence I could check against each paper.
 
 1. Behavior cloning.
 
