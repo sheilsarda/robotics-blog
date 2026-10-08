@@ -34,7 +34,68 @@ layout: default
     </div>
   </header>
 
+  <details class="post-toc" id="post-toc" hidden>
+    <summary class="post-toc-summary">Contents</summary>
+    <nav class="post-toc-nav" aria-label="Table of contents"></nav>
+  </details>
+
   <div class="post-content">
     {{ content }}
   </div>
 </article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  var toc = document.getElementById('post-toc');
+  if (!content || !toc) return;
+  var headings = Array.prototype.slice.call(content.querySelectorAll('h2, h3'));
+  if (headings.length < 2) return;
+
+  var nav = toc.querySelector('.post-toc-nav');
+  var list = document.createElement('ol');
+  var sub = null;
+  headings.forEach(function (h, i) {
+    if (!h.id) h.id = 'section-' + i;
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.replace(/[:!]\s*$/, '');
+    li.appendChild(a);
+    if (h.tagName === 'H2' || !list.lastElementChild) {
+      list.appendChild(li);
+      sub = null;
+    } else {
+      if (!sub) {
+        sub = document.createElement('ol');
+        list.lastElementChild.appendChild(sub);
+      }
+      sub.appendChild(li);
+    }
+  });
+  nav.appendChild(list);
+  toc.hidden = false;
+
+  var wide = window.matchMedia('(min-width: 1280px)');
+  function sync() { if (wide.matches) toc.open = true; }
+  sync();
+  if (wide.addEventListener) wide.addEventListener('change', sync); else wide.addListener(sync);
+
+  var links = {};
+  Array.prototype.forEach.call(nav.querySelectorAll('a'), function (a) {
+    links[a.getAttribute('href').slice(1)] = a;
+  });
+  if ('IntersectionObserver' in window) {
+    var active = null;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        if (active) active.classList.remove('is-active');
+        active = links[e.target.id];
+        if (active) active.classList.add('is-active');
+      });
+    }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+    headings.forEach(function (h) { observer.observe(h); });
+  }
+})();
+</script>
