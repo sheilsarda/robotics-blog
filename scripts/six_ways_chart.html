@@ -12,7 +12,7 @@
 }
 html, body { margin: 0; background: #fff; }
 #figure { width: 720px; box-sizing: border-box; padding: 22px 24px 18px; background: var(--surface); color: var(--ink); font: 12px/1.35 var(--font); }
-h1 { font-size: 17px; font-weight: 600; line-height: 1.25; margin: 0 0 4px; letter-spacing: -0.01em; }
+h1 { font-size: 17px; font-weight: 600; line-height: 1.25; margin: 0 0 10px; letter-spacing: -0.01em; }
 .sub { color: var(--ink-muted); font-size: 12.5px; margin: 0 0 10px; }
 .legend { display: flex; gap: 18px; align-items: center; color: var(--ink-muted); font-size: 11.5px; margin-bottom: 6px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -27,7 +27,8 @@ h1 { font-size: 17px; font-weight: 600; line-height: 1.25; margin: 0 0 4px; lett
 .axis-name { font-size: 10.5px; color: var(--ink-faint); align-self: end; padding-bottom: 2px; }
 .group { grid-column: 1 / -1; padding: 13px 0 4px; }
 .group:first-of-type { padding-top: 8px; }
-.group b { font-weight: 600; font-size: 13px; display: block; }
+.group b { font-weight: 600; font-size: 13px; display: flex; align-items: baseline; gap: 8px; }
+.group em { font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--ink-faint); border: 1px solid var(--grid); border-radius: 3px; padding: 1px 5px; white-space: nowrap; }
 .group small { display: block; color: var(--ink-muted); font-size: 11.5px; line-height: 1.35; max-width: 640px; margin-top: 1px; }
 .label { padding: 0 0 0 4px; min-width: 0; display: flex; align-items: center; height: 22px; white-space: nowrap; overflow: visible; }
 .label b { font-weight: 500; }
@@ -42,44 +43,41 @@ h1 { font-size: 17px; font-weight: 600; line-height: 1.25; margin: 0 0 4px; lett
 .pt.b { background: var(--before); } .pt.a { background: var(--after); }
 .v { position: absolute; top: 50%; transform: translateY(-50%); font-size: 10.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .v.b { text-align: right; } 
-.note { margin-top: 12px; color: var(--ink-faint); font-size: 10.5px; line-height: 1.4; max-width: 660px; }
 </style>
 <div id="figure">
   <h1>Six ways labs train a manipulation policy</h1>
-  <p class="sub">Success rates each paper reports, in percent, with the setting marked sim or real.</p>
   <div class="legend"><span><i class="dot b"></i>baseline the paper starts from</span><span><i class="dot a"></i>with the method</span></div>
   <div class="grid" id="grid"></div>
-  <p class="note">Results without a success rate stay in the text: MimicGen multiplies 200 demos into 50,000; Sim-and-Real Co-Training adds 38 points; π*0.6 with RECAP doubles throughput; Guava's distilled student lands within 3.3 points of its teacher; relighting adds 38.75 points under new lighting.</p>
 </div>
 <script>
 const groups = [
-  { name: "Behavior cloning from real demonstrations",
+  { name: "Behavior cloning from real demonstrations", tag: "real robots",
     how: "Teleoperation, handheld grippers and human video. π0, π0.5 and GR00T N1 pretrain on broad data, then fine-tune on curated teleop.",
-    rows: [["Robot Utility Models", "5 tasks in unseen homes, real", null, 90], ["mimic-one", "16-DoF hand, out of distribution, real", null, 93.3]] },
-  { name: "Behavior cloning from synthetic demonstrations",
+    rows: [["Robot Utility Models", "5 tasks in unseen homes", null, 90], ["mimic-one", "16-DoF hand, out of distribution", null, 93.3]] },
+  { name: "Behavior cloning from synthetic demonstrations", tag: "real robots",
     how: "Multiply a few human demos, run scripted or privileged teachers, or let coding agents solve the task in simulation. Our Arena teachers sit here.",
-    rows: [["Guava", "sim demos only, Franka, 9 tasks, real", null, 90], ["FoldNet", "garment folding, real", null, 75]] },
-  { name: "Reinforcement learning in simulation",
+    rows: [["Guava", "simulated demos only, Franka, 9 tasks", null, 90], ["FoldNet", "garment folding", null, 75]] },
+  { name: "Reinforcement learning in simulation", tag: "sim",
     how: "Start from an SFT checkpoint and run GRPO or PPO against a binary or shaped reward.",
-    rows: [["SimpleVLA-RL", "LIBERO, one demo per task, sim", 48.9, 96.9], ["SimpleVLA-RL", "RoboTwin 2.0, sim", 38.3, 68.8], ["SimpleVLA-RL", "Piper arm, real", 17.5, 38.5], ["πRL", "π0.5 on LIBERO, sim", 77.1, 98.3], ["πRL", "ManiSkill, sim", 40.1, 90.9], ["RIPT-VLA", "one demo, 15 iterations, sim", 4, 97], ["Guava", "GRPO on the 4B student, shell game, sim", 63.3, 90]] },
-  { name: "Distilling a frontier model's rollouts into a smaller model",
+    rows: [["SimpleVLA-RL", "LIBERO, one demo per task", 48.9, 96.9], ["πRL", "π0.5 on LIBERO", 77.1, 98.3], ["RIPT-VLA", "one demo, 15 iterations", 4, 97]] },
+  { name: "Distilling a frontier model's rollouts into a smaller model", tag: "sim",
     how: "A tool-calling agent or a VLA copies a frontier model's successful rollouts through a shared interface, then RL with verifiable rewards can continue from there.",
-    rows: [["CaP-X", "CaP-RL, Cube Lift, sim", 25, 80]] },
-  { name: "Reinforcement learning on the real robot",
+    rows: [["CaP-X", "CaP-RL, Cube Lift", 25, 80]] },
+  { name: "Reinforcement learning on the real robot", tag: "real robots",
     how: "Online or offline RL on hardware, with human corrections or with coding agents resetting, verifying and revising the loop.",
-    rows: [["Real-Time EXPO-FT", "10 minutes of data, real", 42, 97], ["ConRFT", "8 tasks, 45 to 90 minutes online, real", null, 96.3], ["ENPIRE", "pin-box, zip-tie, tool use, real", null, 99]] },
-  { name: "Generative models as data engines",
+    rows: [["Real-Time EXPO-FT", "10 minutes of data", 42, 97], ["ConRFT", "8 tasks, 45 to 90 minutes online", null, 96.3], ["ENPIRE", "pin-box, zip-tie, tool use", null, 99]] },
+  { name: "Generative models as data engines", tag: "real robots",
     how: "Edit, generate or relight demonstrations to widen the training distribution before fine-tuning.",
-    rows: [["U0", "π0.5 out of distribution, real", 36.9, 63.2]] },
-  { name: "Improving the skill library and prompt instead of the weights",
+    rows: [["U0", "π0.5 out of distribution", 36.9, 63.2]] },
+  { name: "Improving the skill library and prompt instead of the weights", tag: "real robots",
     how: "Weights stay frozen. A coding agent revises the skill library, the toolbox and the system prompt from practice in simulation and short real sessions.",
-    rows: [["RPG", "22 tasks over 15 rounds, sim", 28.6, 95], ["RPG", "YAM, 30 of 30 trials, real", null, 100], ["SimEX", "26 of 30 trials, real", null, 86.7], ["SimEX", "GPT-5.5 swapped for GPT-6 Astra, real", 67, 82]] },
+    rows: [["RPG", "YAM, 30 of 30 trials", null, 100], ["SimEX", "26 of 30 trials", null, 86.7]] },
 ];
 const fmt = v => (Number.isInteger(v) ? String(v) : v.toFixed(1));
 const axis = cls => `<div class="axis-name">${cls === 'top' ? 'success rate, %' : ''}</div><div class="axis ${cls}">${[0,25,50,75,100].map(t => `<i style="left:${t}%">${t}</i>`).join('')}</div>`;
 let html = axis('top');
 for (const g of groups) {
-  html += `<div class="group"><b>${g.name}</b><small>${g.how}</small></div>`;
+  html += `<div class="group"><b>${g.name}<em>${g.tag}</em></b><small>${g.how}</small></div>`;
   for (const [name, setting, b, a] of g.rows) {
     let marks = '';
     if (b !== null) marks += `<div class="bar" style="left:${b}%;width:${a - b}%"></div><div class="pt b" style="left:${b}%"></div><div class="v b" style="right:calc(${100 - b}% + 8px)">${fmt(b)}</div>`;

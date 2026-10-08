@@ -353,6 +353,32 @@ main > section > p,
   margin-bottom: 1.4em;
 }
 
+/* --- Tables --- */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 28px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.post-content th,
+.post-content td {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+.post-content thead th {
+  background: var(--purple-light);
+  color: var(--purple-dark);
+  font-weight: 600;
+}
+.post-content tbody td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--border-subtle);
+}
+
 /* --- Footer --- */
 .site-footer {
   margin-top: 72px;
