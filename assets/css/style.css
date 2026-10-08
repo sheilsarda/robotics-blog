@@ -577,11 +577,7 @@ main > section > p,
 
 /* --- Table of contents --- */
 .post-toc {
-  margin: 28px 0 0;
-  padding: 14px 18px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-raised);
+  display: none;
   font-size: 15px;
 }
 
@@ -596,8 +592,6 @@ main > section > p,
 }
 
 .post-toc-summary::-webkit-details-marker { display: none; }
-.post-toc-summary::after { content: '+'; float: right; }
-.post-toc[open] .post-toc-summary::after { content: '\2212'; }
 
 .post-toc-nav ol {
   list-style: none;
@@ -635,21 +629,16 @@ main > section > p,
 
 @media (min-width: 1280px) {
   .post-toc {
+    display: block;
     position: fixed;
     top: 112px;
-    left: calc(50% + 396px);
+    left: calc(50% - 628px);
     width: 232px;
     max-height: calc(100vh - 160px);
     overflow-y: auto;
-    margin: 0;
     padding: 0 0 0 16px;
-    border: 0;
     border-left: 2px solid var(--border);
-    border-radius: 0;
-    background: transparent;
   }
 
   .post-toc-summary { pointer-events: none; }
-  .post-toc-summary::after,
-  .post-toc[open] .post-toc-summary::after { content: none; }
 }
