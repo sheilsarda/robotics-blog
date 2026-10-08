@@ -4,17 +4,11 @@ date: 2026-10-07
 slug: six-ways-labs-train-manipulation-policies
 ---
 
-I went to IROS 2026 with Moonlake. Our demo ran code-as-policy on semi-repeatable tasks: the robot's program stayed fixed while SAM3 located the objects, so one script handled layouts we had not staged before. The workshops I sat in kept returning to one question: which parts of writing a task and a policy can a foundation model take over, and how much does that speed up reinforcement learning and supervised fine-tuning.
-
-## Four themes from IROS 2026
-- We can use LLMs and VLMs to formulate PDDL (Planning Domain Definition Language); used in TAMP (Task and Motion Planning)
-- We can use VLMs to supervise VLA reinforcement learning (and even the reward functions can be auto-generated)
-- We can use coding agents that are AITL (Agent In The Loop) to generate trajectories to behavior-clone / fine-tune VLAs with, in lieu of real teleoperation
-- We can use a coding agent with vision (e.g., Astra) to do real2sim, system identification, scene understanding, task formulation, etc.
+I went to IROS 2026 with Moonlake. Our demo ran code-as-policy on semi-repeatable tasks: the robot's program stayed fixed while SAM3 located the objects, so one script handled layouts we had not staged before. The workshops I sat in kept returning to one question: which parts of writing a task and a policy can a foundation model take over, and how much does that speed up reinforcement learning and supervised fine-tuning. The six ways labs train a manipulation policy come first, with the evidence I could check against each paper. The four places where IROS showed a foundation model taking over a step inside those methods come after, because each one lands inside the survey.
 
 ## Six ways labs train a manipulation policy
 
-Robotics labs have converged on six ways to train a manipulation policy. I list them with the evidence I could check against each paper.
+Robotics labs have converged on six ways to train a manipulation policy. I list them with the evidence I could check against each paper, and the IROS themes return once the map is drawn.
 
 | Method | Where it learns | What you need |
 | --- | --- | --- |
@@ -67,9 +61,21 @@ Xiaomi's [U0](https://arxiv.org/abs/2607.11643) edits and generates multi-view r
 
 [RPG](https://arxiv.org/abs/2610.02204) runs Gemini 3.8 Flash as an agent that composes skills from a shared library, mines real ABC episodes to build practice tasks in MuJoCo, and over 15 rounds revises the library from 15 to 38 entries and rewrites the system prompt, taking 22 simulated tasks from 28.6% to 95.0% and then 30 of 30 real trials on a YAM after a common calibration. [SimEX](https://arxiv.org/abs/2609.38982) has a coding agent write a program per trial against an editable toolbox and improves only the toolbox, first through open-ended simulated experiments and then with 10 minutes of robot time per task, for 26 of 30 real successes. [Harness VLA](https://arxiv.org/abs/2607.08448) and [RoboHarness](https://arxiv.org/abs/2603.24060) do the same around a frozen VLA. The learned behavior lives in code and prompts, so it survives a model upgrade: SimEX rose from 67% to 82% when GPT-5.5 was swapped for GPT-6 Astra under the same pipeline. A learning step costs a coding-agent call and simulator time rather than trainer GPUs, and you can read the result. The ceiling is the one Guava names: the policy stays bounded by the tools exposed to it, and the per-step reasoning loop limits reactivity. [SIA](https://arxiv.org/abs/2605.27276) finds that updating both harness and weights beats either alone on its three benchmarks.
 
+## Four places foundation models take over a step
+
+The IROS workshops kept landing on four steps inside these methods that a foundation model can now do. In the order a lab would reach them, from defining the task to building the world:
+
+Task formulation. LLMs and VLMs write PDDL (Planning Domain Definition Language) for task and motion planning, and coding agents set up the task itself: [HARBOR](https://arxiv.org/abs/2606.08610) hands environment setup, reward design and tuning to coding agents across 16 tasks. This is the front end of every simulation-based method above, and it is the whole of the skill-library-and-prompt method, where RPG and SimEX keep the policy in code that the agent revises.
+
+Reward and supervision. VLMs supervise VLA reinforcement learning and LLMs write the reward. In simulation that is [LEACL](https://arxiv.org/abs/2607.23515), where an LLM writes the curriculum, and [VGRS](https://arxiv.org/abs/2406.05881), where an LLM writes reward code and a VLM reads the failed rollouts. On the real robot it is [VLAC](https://arxiv.org/abs/2509.15937) and [WCM](https://arxiv.org/abs/2607.29613), VLM critics that score progress from camera frames in place of a hand-written reward. That reward is the first thing the recipe below needs.
+
+Trajectory generation. Coding agents in the loop produce the demonstrations instead of a teleoperator. [EmbodiedSWE](https://arxiv.org/abs/2609.27308) has agents solve long-horizon tasks in simulation and expands each verified solution into training trajectories for a VLA, and [Guava](https://arxiv.org/abs/2606.18363) reaches 90.0% on a real Franka from 2,268 agent-written MuJoCo trajectories and no real data. These sit inside behavior cloning from synthetic demonstrations, and the same rollouts are what distillation copies into a smaller model.
+
+Real2sim and scene understanding. A coding agent with vision reconstructs the scene, identifies system parameters, works out what is on the table and formulates the task. That produces the simulator that reinforcement learning in simulation, synthetic demonstrations and distillation all depend on. In our case that agent is GPT-6 Astra, whose successful rollouts we already distill, and the environments it would set up are the Isaac Lab Arena tasks our scripted teachers run in.
+
 ## Toward RL on our own tasks
 
-A follow-up post will take the reinforcement learning direction further for tabletop manipulation, no locomotion: the steps involved, and where coding agents can replace hand-written rewards and environments.
+Two of those four places, the reward and the simulator, are where our own work goes next. A follow-up post will take the reinforcement learning direction further for tabletop manipulation, no locomotion: the steps involved, and where coding agents can replace hand-written rewards and environments.
 
 A potential recipe for RL would have the following components:
 
