@@ -25,11 +25,10 @@ h1 { font-size: 17px; font-weight: 600; line-height: 1.25; margin: 0 0 10px; let
 .axis.top { border-bottom: 1px solid var(--rule); margin-bottom: 2px; }
 .axis.bottom { border-top: 1px solid var(--rule); margin-top: 2px; padding-top: 3px; }
 .axis-name { font-size: 10.5px; color: var(--ink-faint); align-self: end; padding-bottom: 2px; }
-.group { grid-column: 1 / -1; padding: 13px 0 4px; }
+.group { grid-column: 1 / -1; padding: 14px 0 5px; }
 .group:first-of-type { padding-top: 8px; }
 .group b { font-weight: 600; font-size: 13px; display: flex; align-items: baseline; gap: 8px; }
 .group em { font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--ink-faint); border: 1px solid var(--grid); border-radius: 3px; padding: 1px 5px; white-space: nowrap; }
-.group small { display: block; color: var(--ink-muted); font-size: 11.5px; line-height: 1.35; max-width: 640px; margin-top: 1px; }
 .label { padding: 0 0 0 4px; min-width: 0; display: flex; align-items: center; height: 22px; white-space: nowrap; overflow: visible; }
 .label b { font-weight: 500; }
 .label span { color: var(--ink-muted); margin-left: 5px; }
@@ -52,32 +51,25 @@ h1 { font-size: 17px; font-weight: 600; line-height: 1.25; margin: 0 0 10px; let
 <script>
 const groups = [
   { name: "Behavior cloning from real demonstrations", tag: "real robots",
-    how: "Teleoperation, handheld grippers and human video. π0, π0.5 and GR00T N1 pretrain on broad data, then fine-tune on curated teleop.",
     rows: [["Robot Utility Models", "5 tasks in unseen homes", null, 90], ["mimic-one", "16-DoF hand, out of distribution", null, 93.3]] },
   { name: "Behavior cloning from synthetic demonstrations", tag: "real robots",
-    how: "Multiply a few human demos, run scripted or privileged teachers, or let coding agents solve the task in simulation. Our Arena teachers sit here.",
     rows: [["Guava", "simulated demos only, Franka, 9 tasks", null, 90], ["FoldNet", "garment folding", null, 75]] },
   { name: "Reinforcement learning in simulation", tag: "sim",
-    how: "Start from an SFT checkpoint and run GRPO or PPO against a binary or shaped reward.",
     rows: [["SimpleVLA-RL", "LIBERO, one demo per task", 48.9, 96.9], ["πRL", "π0.5 on LIBERO", 77.1, 98.3], ["RIPT-VLA", "one demo, 15 iterations", 4, 97]] },
   { name: "Distilling a frontier model's rollouts into a smaller model", tag: "sim",
-    how: "A tool-calling agent or a VLA copies a frontier model's successful rollouts through a shared interface, then RL with verifiable rewards can continue from there.",
     rows: [["CaP-X", "CaP-RL, Cube Lift", 25, 80]] },
   { name: "Reinforcement learning on the real robot", tag: "real robots",
-    how: "Online or offline RL on hardware, with human corrections or with coding agents resetting, verifying and revising the loop.",
     rows: [["Real-Time EXPO-FT", "10 minutes of data", 42, 97], ["ConRFT", "8 tasks, 45 to 90 minutes online", null, 96.3], ["ENPIRE", "pin-box, zip-tie, tool use", null, 99]] },
   { name: "Generative models as data engines", tag: "real robots",
-    how: "Edit, generate or relight demonstrations to widen the training distribution before fine-tuning.",
     rows: [["U0", "π0.5 out of distribution", 36.9, 63.2]] },
   { name: "Improving the skill library and prompt instead of the weights", tag: "real robots",
-    how: "Weights stay frozen. A coding agent revises the skill library, the toolbox and the system prompt from practice in simulation and short real sessions.",
     rows: [["RPG", "YAM, 30 of 30 trials", null, 100], ["SimEX", "26 of 30 trials", null, 86.7]] },
 ];
 const fmt = v => (Number.isInteger(v) ? String(v) : v.toFixed(1));
 const axis = cls => `<div class="axis-name">${cls === 'top' ? 'success rate, %' : ''}</div><div class="axis ${cls}">${[0,25,50,75,100].map(t => `<i style="left:${t}%">${t}</i>`).join('')}</div>`;
 let html = axis('top');
 for (const g of groups) {
-  html += `<div class="group"><b>${g.name}<em>${g.tag}</em></b><small>${g.how}</small></div>`;
+  html += `<div class="group"><b>${g.name}<em>${g.tag}</em></b></div>`;
   for (const [name, setting, b, a] of g.rows) {
     let marks = '';
     if (b !== null) marks += `<div class="bar" style="left:${b}%;width:${a - b}%"></div><div class="pt b" style="left:${b}%"></div><div class="v b" style="right:calc(${100 - b}% + 8px)">${fmt(b)}</div>`;
