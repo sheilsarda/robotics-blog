@@ -34,10 +34,10 @@ layout: default
     </div>
   </header>
 
-  <details class="post-toc" id="post-toc" hidden>
-    <summary class="post-toc-summary">Contents</summary>
-    <nav class="post-toc-nav" aria-label="Table of contents"></nav>
-  </details>
+  <nav class="post-toc" id="post-toc" aria-label="On this page" hidden>
+    <div class="post-toc-rail" aria-hidden="true"><span class="post-toc-marker"></span></div>
+    <ol class="post-toc-list"></ol>
+  </nav>
 
   <div class="post-content">
     {{ content }}
@@ -52,9 +52,10 @@ layout: default
   var headings = Array.prototype.slice.call(content.querySelectorAll('h2, h3'));
   if (headings.length < 2) return;
 
-  var nav = toc.querySelector('.post-toc-nav');
-  var list = document.createElement('ol');
+  var list = toc.querySelector('.post-toc-list');
+  var marker = toc.querySelector('.post-toc-marker');
   var sub = null;
+  var links = [];
   headings.forEach(function (h, i) {
     if (!h.id) h.id = 'section-' + i;
     var li = document.createElement('li');
@@ -72,30 +73,40 @@ layout: default
       }
       sub.appendChild(li);
     }
+    links.push(a);
   });
-  nav.appendChild(list);
   toc.hidden = false;
 
-  var wide = window.matchMedia('(min-width: 1280px)');
-  function sync() { if (wide.matches) toc.open = true; }
-  sync();
-  if (wide.addEventListener) wide.addEventListener('change', sync); else wide.addListener(sync);
-
-  var links = {};
-  Array.prototype.forEach.call(nav.querySelectorAll('a'), function (a) {
-    links[a.getAttribute('href').slice(1)] = a;
-  });
-  if ('IntersectionObserver' in window) {
-    var active = null;
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        if (active) active.classList.remove('is-active');
-        active = links[e.target.id];
-        if (active) active.classList.add('is-active');
-      });
-    }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
-    headings.forEach(function (h) { observer.observe(h); });
+  var active = null;
+  function setActive(index) {
+    var next = links[index];
+    if (next === active) return;
+    if (active) active.classList.remove('is-active');
+    active = next;
+    if (!active) { marker.style.height = '0px'; return; }
+    active.classList.add('is-active');
+    marker.style.top = active.offsetTop + 'px';
+    marker.style.height = active.offsetHeight + 'px';
+    var top = active.offsetTop, bottom = top + active.offsetHeight;
+    if (top < toc.scrollTop || bottom > toc.scrollTop + toc.clientHeight) {
+      toc.scrollTop = top - toc.clientHeight / 2;
+    }
   }
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var line = 140;
+    var index = -1;
+    for (var i = 0; i < headings.length; i++) {
+      if (headings[i].getBoundingClientRect().top <= line) index = i; else break;
+    }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) index = headings.length - 1;
+    setActive(index);
+  }
+  function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
