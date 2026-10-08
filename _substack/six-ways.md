@@ -1,8 +1,4 @@
----
-title: "From demonstrations to reinforcement learning for robot policies"
-date: 2026-10-07
-slug: six-ways-labs-train-manipulation-policies
----
+# From demonstrations to reinforcement learning for robot policies
 
 I went to IROS 2026 with Moonlake. Our demo ran code-as-policy on semi-repeatable tasks: the robot's program stayed fixed while SAM3 located the objects, so one script handled layouts we had not staged before. The workshops I sat in kept returning to one question: which parts of writing a task and a policy can a foundation model take over, and how much does that speed up reinforcement learning and supervised fine-tuning.
 
@@ -25,7 +21,7 @@ Robotics labs have converged on six ways to train a manipulation policy. I list 
 | Generative models as data engines | Offline | A generation or editing model and seed demonstrations |
 | Improving the skill library and prompt | Practice in simulation, then short real sessions | A coding agent, a simulator, an editable toolbox |
 
-![Dumbbell chart of success rates reported by the papers in this section, grouped by the six training methods. Light dots mark the baseline each paper starts from and dark dots the result with the method; a tag beside each method names its setting, simulation or real robots.]({{ site.baseurl }}/assets/posts/six-ways-labs-train-manipulation-policies/training-methods-success-rates.png?v=2)
+![Dumbbell chart of success rates reported by the papers in this section, grouped by the six training methods. Light dots mark the baseline each paper starts from and dark dots the result with the method; a tag beside each method names its setting, simulation or real robots.](six-ways-chart.png)
 
 *Success rates the papers below report, grouped by method. A light dot is the baseline a paper starts from and a dark dot is the result with the method. The tag beside each method names its setting, simulation or real robots. Results that are not success rates, such as MimicGen's demo multiplication and RECAP's throughput, stay in the text.*
 
@@ -81,7 +77,7 @@ A potential recipe for RL would have the following components:
 
 Hypothesis: Machine-generated demonstrations help most when mixed with real data. [Sim-and-Real Co-Training](https://arxiv.org/abs/2503.24361) reports +38% average real-world success from adding simulated data.
 
-![Figure 2 of Sim-and-Real Co-Training: real teleop demos, digital-cousin simulation demos multiplied with DexMimicGen, and prior simulation data are mixed by a sampling ratio alpha and co-trained into one policy that is deployed on the real robot.]({{ site.baseurl }}/assets/posts/six-ways-labs-train-manipulation-policies/cotraining-fig2.png)
+![Figure 2 of Sim-and-Real Co-Training: real teleop demos, digital-cousin simulation demos multiplied with DexMimicGen, and prior simulation data are mixed by a sampling ratio alpha and co-trained into one policy that is deployed on the real robot.](six-ways-cotraining-fig2.png)
 
 *Figure 2 of Maddukuri, Jiang, Chen, Nasiriany et al., [Sim-and-Real Co-Training: A Simple Recipe for Vision-Based Robotic Manipulation](https://arxiv.org/abs/2503.24361) (2025), reproduced from the authors' arXiv source. Dozens of real teleop demos (1x) are mixed with digital-cousin simulation demos multiplied by DexMimicGen (100x) and task-agnostic prior simulation data (1000x). Each training batch draws a fraction α from simulation, and the co-trained policy is deployed directly on the real robot.*
 
