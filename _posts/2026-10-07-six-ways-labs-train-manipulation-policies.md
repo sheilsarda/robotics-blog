@@ -16,6 +16,10 @@ I went to IROS 2026 with Moonlake. Our demo ran code-as-policy on semi-repeatabl
 
 Robotics labs have converged on six ways to train a manipulation policy. I list them with the evidence I could check against each paper.
 
+![Dumbbell chart of success rates reported by the papers in this section, grouped by the six training methods. Light dots mark the baseline each paper starts from and dark dots the result with the method; each row is labeled sim or real.]({{ site.baseurl }}/assets/posts/six-ways-labs-train-manipulation-policies/training-methods-success-rates.png)
+
+*Success rates the papers below report, grouped by method. A light dot is the baseline a paper starts from and a dark dot is the result with the method, with each row marked sim or real. Results that are not success rates, such as MimicGen's demo multiplication and RECAP's throughput, stay in the text.*
+
 ### Behavior cloning
 
 #### From real-world demonstrations
@@ -56,7 +60,7 @@ Xiaomi's [U0](https://arxiv.org/abs/2607.11643) edits and generates multi-view r
 
 ## Toward RL on our own tasks
 
-The next post takes the reinforcement learning direction further for tabletop manipulation, no locomotion: the steps involved, and where coding agents can replace hand-written rewards and environments.
+A follow-up post will take the reinforcement learning direction further for tabletop manipulation, no locomotion: the steps involved, and where coding agents can replace hand-written rewards and environments.
 
 A potential recipe for RL would have the following components:
 
